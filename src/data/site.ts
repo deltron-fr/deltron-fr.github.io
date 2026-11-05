@@ -1,8 +1,7 @@
 export const site = {
     name: 'Kelechi Ogbonnaya',
     title: 'Kelechi Ogbonnaya | Systems & Backend Engineer',
-    description:
-        'I build backend systems, infrastructure tools, and production software in Go and Python.',
+    description: 'Portfolio of Kelechi Ogbonnaya, a systems and backend engineer.',
     url: 'https://deltron-fr.github.io',
     language: 'en',
     locale: 'en_US',
