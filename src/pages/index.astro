@@ -74,14 +74,13 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
         <div class="hero-content relative z-10 flex items-end">
             <div class="hero-shell">
                 <div class="hero-copy">
-                    <div class="hero-availability" data-hero-reveal>
-                        <span class="hero-status-dot" aria-hidden="true"></span>
-                        {hero.availability}
-                    </div>
-
                     <h1 class="hero-title" data-hero-reveal>{hero.name}</h1>
-                    <p class="hero-role" data-hero-reveal>{hero.headline}</p>
-                    <p class="hero-summary" data-hero-reveal>{hero.summary}</p>
+                    <p class="hero-role" data-hero-reveal aria-label={hero.headline}>
+                        <span data-hero-typing aria-hidden="true">{hero.headline}</span><span
+                            class="hero-typing-caret"
+                            aria-hidden="true"
+                        ></span>
+                    </p>
 
                     <div class="hero-actions" data-hero-reveal>
                         <a class="hero-primary-action" href="#my-work">View my work</a>
@@ -365,28 +364,11 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
         padding: 0;
     }
 
-    .hero-availability,
     .hero-readout {
         font-family: var(--font-mono);
         font-size: 0.75rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-    }
-
-    .hero-availability {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        margin-bottom: 1.25rem;
-        color: var(--color-muted);
-    }
-
-    .hero-status-dot {
-        width: 0.45rem;
-        height: 0.45rem;
-        border-radius: 50%;
-        background: var(--color-primary);
-        box-shadow: 0 0 0.5rem color-mix(in srgb, var(--color-primary) 36%, transparent);
     }
 
     .hero-title {
@@ -399,6 +381,8 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
     }
 
     .hero-role {
+        display: inline-flex;
+        align-items: baseline;
         margin-top: 1.25rem;
         color: var(--color-primary);
         font-size: clamp(1.25rem, 3vw, 2rem);
@@ -406,12 +390,14 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
         letter-spacing: -0.015em;
     }
 
-    .hero-summary {
-        max-width: 42rem;
-        margin-top: 1.25rem;
-        color: var(--color-muted);
-        font-size: clamp(1rem, 2vw, 1.16rem);
-        line-height: 1.75;
+    .hero-typing-caret {
+        display: inline-block;
+        width: 0.08em;
+        height: 1em;
+        margin-left: 0.18em;
+        background: currentColor;
+        transform: translateY(0.12em);
+        animation: hero-typing-caret 760ms steps(1) infinite;
     }
 
     .hero-actions {
@@ -682,11 +668,17 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
             opacity: 1;
             transform: none;
         }
+
+        .hero-typing-caret { animation: none; }
     }
 
     @keyframes hero-reveal {
         from { opacity: 0; transform: translateY(1rem); }
         to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes hero-typing-caret {
+        50% { opacity: 0; }
     }
 </style>
 
@@ -696,7 +688,37 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
 
     const revealSections = document.querySelectorAll('[data-reveal-section]');
     const workRevealItems = document.querySelectorAll('[data-work-reveal]');
+    const typingTarget = document.querySelector('[data-hero-typing]');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (typingTarget instanceof HTMLElement && !reduceMotion) {
+        const text = typingTarget.textContent ?? '';
+        let index = 0;
+        let deleting = false;
+        let timer = 0;
+
+        const type = () => {
+            typingTarget.textContent = deleting ? text.slice(0, index) : text.slice(0, index);
+
+            if (!deleting && index < text.length) {
+                index += 1;
+                timer = window.setTimeout(type, 72);
+            } else if (!deleting) {
+                deleting = true;
+                timer = window.setTimeout(type, 4200);
+            } else if (index > 0) {
+                index -= 1;
+                timer = window.setTimeout(type, 42);
+            } else {
+                deleting = false;
+                timer = window.setTimeout(type, 700);
+            }
+        };
+
+        index = 0;
+        type();
+        window.addEventListener('pagehide', () => window.clearTimeout(timer), { once: true });
+    }
 
     revealSections.forEach((section) => {
         const revealItems = section.querySelectorAll('[data-section-reveal]');
