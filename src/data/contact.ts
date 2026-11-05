@@ -9,7 +9,6 @@ export const contact = {
             'I am open to backend, systems, infrastructure, and platform engineering opportunities.',
     },
     resume: {
-        intro: 'A single resume with the systems, backend, infrastructure, and open-source experience most relevant to the work I want to do.',
         href: '/resume/',
         title: 'Systems and backend engineer',
         description: 'View my experience, selected Lima contributions, projects, skills, education, and certifications.',
