@@ -1,0 +1,482 @@
+---
+import MdiArrowTopRight from '~icons/mdi/arrow-top-right';
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+import { absoluteUrl } from '../lib/seo';
+
+const experience = [
+    {
+        role: 'Backend Developer',
+        company: 'Bomach Group',
+        location: 'Enugu, Nigeria',
+        dates: 'Feb 2026 – Present',
+        bullets: [
+            'Develop and extend an internal ERP that moved paper work reports and physical leave requests into the system, while giving the sales team a single place for invoicing and payment tracking.',
+            'Led the rearchitecture of a legacy Django and Django Ninja codebase into a modular monolith with 10+ business domains, migrating 120 models across 200+ migrations without breaking existing API contracts.',
+            'Designed a reusable permission layer for branch-scoped and company-wide access, applied declaratively across API resources for roles from intern to CEO.',
+            'Built the Finance module end to end, including invoicing, AR ageing, payment review and posting, ledger-based wallets, vendor payables, cashbook, and executive dashboards backed by 600+ tests.',
+        ],
+    },
+    {
+        role: 'DevOps Engineer Intern',
+        company: 'Coils Tech',
+        location: 'Remote',
+        dates: 'Jan 2024 – Apr 2024',
+        bullets: [
+            'Provisioned Azure infrastructure as code with Bicep and built Azure DevOps CI/CD pipelines to reduce manual deployment work.',
+            'Deployed and scaled containerized applications across Azure Virtual Machines.',
+        ],
+    },
+] as const;
+
+const limaPullRequests = [
+    {
+        title: 'Fix Windows Joliet ISO generation',
+        href: 'https://github.com/lima-vm/lima/pull/5706',
+    },
+    {
+        title: 'Improve limactl-menu navigation shortcuts',
+        href: 'https://github.com/lima-vm/lima/pull/5690',
+    },
+    {
+        title: 'Add editor commands with arguments',
+        href: 'https://github.com/lima-vm/lima/pull/5640',
+    },
+    {
+        title: 'Improve menu behavior, units, and terminal contrast',
+        href: 'https://github.com/lima-vm/lima',
+    },
+] as const;
+
+const projects = [
+    {
+        title: 'govisor',
+        href: 'https://github.com/deltron-fr/govisor',
+        description: 'A Linux process supervisor driven by YAML, with a CLI and client-server interface over Unix domain sockets for configuration, status, logs, restart policies, backoff, graceful shutdown, and log rotation.',
+        stack: 'Go · Linux · Unix domain sockets · Cobra · YAML',
+    },
+    {
+        title: 'gash',
+        href: 'https://github.com/deltron-fr/dshell',
+        description: 'An interactive Unix-like shell with builtins, external commands, pipelines, redirection, command history, tab completion, background jobs, shell expansion, and raw terminal input handling.',
+        stack: 'Go · Shell internals · Terminal I/O',
+    },
+    {
+        title: 'Warden',
+        href: 'https://github.com/deltron-fr/warden',
+        description: 'An HTTP/1.1 reverse proxy with TCP request handling, path-based routing, round-robin load balancing, YAML configuration, upstream connection management, and graceful shutdown.',
+        stack: 'Go · TCP/IP · HTTP/1.1 · Networking',
+    },
+    {
+        title: 'Simila',
+        href: 'https://github.com/Parakliite/Simila-backend',
+        description: 'A Go backend for a social taste app, including authentication, rotating refresh tokens, PostgreSQL data modeling, typed sqlc queries, OpenAPI documentation, endpoint tests, and CI.',
+        stack: 'Go · PostgreSQL · sqlc · goose · OpenAPI · GitHub Actions',
+    },
+    {
+        title: 'MIRA',
+        href: 'https://github.com/jerrygeorge360/mira',
+        description: 'Inspectable memory infrastructure for AI agents, with structured response handling, retrieval traceability, a Slack integration, Docker deployment, CI/CD, and Nginx routing with TLS.',
+        stack: 'Python · Slack Bolt · Docker Compose · GitHub Actions · Nginx',
+    },
+] as const;
+
+const resumeJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: `${site.author} resume`,
+    url: absoluteUrl('/resume'),
+    mainEntity: {
+        '@type': 'Person',
+        name: site.author,
+        jobTitle: 'Systems Engineer and Backend Engineer',
+        email: site.email,
+        url: absoluteUrl('/'),
+        sameAs: [site.social.github],
+    },
+};
+---
+
+<Layout
+    title={`Resume | ${site.name}`}
+    description="Resume for Kelechi Ogbonnaya, a systems and backend engineer working in Go, Python, Linux, infrastructure, and production software."
+    canonicalPath="/resume"
+    image={site.defaultOgImage}
+    imageAlt="Kelechi Ogbonnaya resume"
+    jsonLd={resumeJsonLd}
+>
+    <section class="resume-page border-t border-border px-6 py-16 text-text sm:px-10 sm:py-20">
+        <div class="resume-shell">
+            <header class="resume-header border-b border-border pb-10">
+                <div class="resume-header-top">
+                    <div>
+                        <p class="resume-eyebrow">Systems Engineer · Backend / Infrastructure</p>
+                        <h1>{site.author}</h1>
+                        <p class="resume-summary">
+                            Go-focused systems and backend engineer with experience owning architecture, authentication,
+                            access control, finance workflows, Linux tooling, infrastructure, and production software.
+                            Regular contributor to Lima, a CNCF project.
+                        </p>
+                    </div>
+                    <div class="resume-contact">
+                        <a href={`mailto:${site.email}`}>{site.email}</a>
+                        <a href="tel:+2348148547807">+234 814 854 7807</a>
+                        <a href={site.social.github} target="_blank" rel="noreferrer">github.com/deltron-fr</a>
+                        <span>Discord: deltronfr</span>
+                    </div>
+                </div>
+                <div class="resume-actions">
+                    <a class="resume-action" href="/cv/KelechiOgbonnaya_CV_Systems.pdf" download>Systems CV PDF</a>
+                    <a class="resume-action" href="/cv/KelechiOgbonnaya_CV_SWE.pdf" download>Backend CV PDF</a>
+                    <a class="resume-action" href="/#contact">Contact me</a>
+                </div>
+            </header>
+
+            <section class="resume-section">
+                <h2>Experience</h2>
+                <div class="resume-entries">
+                    {experience.map((entry) => (
+                        <article class="resume-entry">
+                            <div class="resume-entry-heading">
+                                <div>
+                                    <h3>{entry.role}</h3>
+                                    <p>{entry.company} · {entry.location}</p>
+                                </div>
+                                <time>{entry.dates}</time>
+                            </div>
+                            <ul>
+                                {entry.bullets.map((bullet) => <li>{bullet}</li>)}
+                            </ul>
+                        </article>
+                    ))}
+                </div>
+            </section>
+
+            <section class="resume-section">
+                <div class="resume-section-heading">
+                    <h2>Open source</h2>
+                    <p>Lima · CNCF project for Linux virtual machines and containers · Go</p>
+                </div>
+                <ul class="resume-link-list">
+                    {limaPullRequests.map((pullRequest) => (
+                        <li>
+                            <a href={pullRequest.href} target="_blank" rel="noreferrer">
+                                {pullRequest.title} <MdiArrowTopRight aria-hidden="true" />
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+
+            <section class="resume-section">
+                <h2>Selected projects</h2>
+                <div class="resume-projects">
+                    {projects.map((project) => (
+                        <article class="resume-project">
+                            <h3>
+                                <a href={project.href} target="_blank" rel="noreferrer">
+                                    {project.title} <MdiArrowTopRight aria-hidden="true" />
+                                </a>
+                            </h3>
+                            <p>{project.description}</p>
+                            <span>{project.stack}</span>
+                        </article>
+                    ))}
+                </div>
+            </section>
+
+            <section class="resume-section resume-grid-section">
+                <div>
+                    <h2>Skills</h2>
+                    <dl class="resume-skills">
+                        <div><dt>Languages</dt><dd>Go, Python, SQL, Bash</dd></div>
+                        <div><dt>Backend</dt><dd>REST APIs, authentication, PostgreSQL, SQLite, Django Ninja, sqlc, OpenAPI</dd></div>
+                        <div><dt>Systems</dt><dd>Linux, process management, concurrency, Unix domain sockets, storage engines, TCP/IP, CLI development</dd></div>
+                        <div><dt>Infrastructure</dt><dd>Docker, Kubernetes, Terraform, Azure, AWS, Bicep, CI/CD, Prometheus, Nginx</dd></div>
+                    </dl>
+                </div>
+                <div>
+                    <h2>Education</h2>
+                    <div class="resume-plain-entry">
+                        <h3>B.Eng. Electronics and Computer Engineering</h3>
+                        <p>University of Nigeria · Aug 2021 – 2025</p>
+                    </div>
+                    <h2 class="resume-subheading">Certifications</h2>
+                    <ul class="resume-plain-list">
+                        <li>Kubernetes and Cloud Native Associate (KCNA) · Linux Foundation</li>
+                        <li>Microsoft Certified: Azure Fundamentals (AZ-900) · Microsoft</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .resume-page {
+        font-family: "Inter", var(--font-sans);
+    }
+
+    .resume-shell {
+        width: min(100%, 72rem);
+        margin-inline: auto;
+    }
+
+    .resume-header-top {
+        display: grid;
+        gap: 2rem;
+    }
+
+    .resume-eyebrow,
+    .resume-contact,
+    .resume-section-heading p,
+    .resume-project span,
+    .resume-skills dt,
+    .resume-plain-entry p,
+    .resume-plain-list {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .resume-eyebrow {
+        margin: 0 0 1rem;
+        color: var(--color-primary);
+        font-size: 0.875rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    .resume-header h1 {
+        margin: 0;
+        font-size: clamp(2.75rem, 8vw, 5.5rem);
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        line-height: 0.95;
+    }
+
+    .resume-summary {
+        max-width: 50rem;
+        margin: 1.5rem 0 0;
+        color: color-mix(in srgb, var(--color-text) 78%, transparent);
+        font-size: 1.125rem;
+        line-height: 1.7;
+    }
+
+    .resume-contact {
+        display: grid;
+        align-content: start;
+        gap: 0.5rem;
+        color: color-mix(in srgb, var(--color-text) 75%, transparent);
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .resume-contact a,
+    .resume-link-list a,
+    .resume-project a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: var(--color-border);
+        text-underline-offset: 0.25em;
+        transition: color 180ms ease-out, text-decoration-color 180ms ease-out;
+    }
+
+    .resume-contact a:hover,
+    .resume-contact a:focus-visible,
+    .resume-link-list a:hover,
+    .resume-link-list a:focus-visible,
+    .resume-project a:hover,
+    .resume-project a:focus-visible {
+        color: var(--color-primary);
+        text-decoration-color: var(--color-primary);
+    }
+
+    .resume-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 2rem;
+    }
+
+    .resume-action {
+        border: 1px solid var(--color-border);
+        padding: 0.65rem 0.8rem;
+        color: var(--color-primary);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.8125rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: border-color 180ms ease-out, background 180ms ease-out, color 180ms ease-out;
+    }
+
+    .resume-action:hover,
+    .resume-action:focus-visible {
+        border-color: var(--color-primary);
+        background: var(--color-primary);
+        color: var(--color-background);
+    }
+
+    .resume-section {
+        border-bottom: 1px solid var(--color-border);
+        padding-block: 2.5rem;
+    }
+
+    .resume-section h2 {
+        margin: 0 0 1.5rem;
+        color: var(--color-text);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    .resume-entry + .resume-entry {
+        margin-top: 2.5rem;
+    }
+
+    .resume-entry-heading {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .resume-entry h3,
+    .resume-project h3,
+    .resume-plain-entry h3 {
+        margin: 0;
+        color: var(--color-text);
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .resume-entry-heading p,
+    .resume-plain-entry p {
+        margin: 0.35rem 0 0;
+        color: var(--color-primary);
+        font-size: 0.875rem;
+    }
+
+    .resume-entry time {
+        color: color-mix(in srgb, var(--color-text) 65%, transparent);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.8125rem;
+    }
+
+    .resume-entry ul,
+    .resume-link-list,
+    .resume-plain-list {
+        display: grid;
+        gap: 0.7rem;
+        margin: 1rem 0 0;
+        padding-left: 1.25rem;
+        color: color-mix(in srgb, var(--color-text) 78%, transparent);
+        line-height: 1.7;
+    }
+
+    .resume-link-list {
+        margin: 0;
+    }
+
+    .resume-link-list a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    .resume-link-list svg,
+    .resume-project svg {
+        display: inline-block;
+        color: var(--color-primary);
+        vertical-align: middle;
+    }
+
+    .resume-link-list span {
+        color: var(--color-primary);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .resume-projects {
+        display: grid;
+        gap: 1px;
+        background: var(--color-border);
+    }
+
+    .resume-project {
+        background: var(--color-background);
+        padding: 1.25rem;
+    }
+
+    .resume-project p {
+        margin: 0.65rem 0 0;
+        color: color-mix(in srgb, var(--color-text) 75%, transparent);
+        line-height: 1.7;
+    }
+
+    .resume-project span {
+        display: block;
+        margin-top: 0.75rem;
+        color: var(--color-primary);
+        font-size: 0.75rem;
+        line-height: 1.5;
+    }
+
+    .resume-grid-section {
+        display: grid;
+        gap: 2.5rem;
+    }
+
+    .resume-skills {
+        display: grid;
+        gap: 1rem;
+        margin: 0;
+    }
+
+    .resume-skills div {
+        display: grid;
+        gap: 0.35rem;
+    }
+
+    .resume-skills dt {
+        color: var(--color-primary);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+    }
+
+    .resume-skills dd {
+        margin: 0;
+        color: color-mix(in srgb, var(--color-text) 78%, transparent);
+        line-height: 1.6;
+    }
+
+    .resume-subheading {
+        margin-top: 2rem !important;
+    }
+
+    .resume-plain-list {
+        margin-top: 0;
+        padding-left: 1.1rem;
+        font-size: 0.875rem;
+    }
+
+    @media (min-width: 720px) {
+        .resume-header-top,
+        .resume-grid-section {
+            grid-template-columns: minmax(0, 1fr) 18rem;
+            align-items: start;
+        }
+
+        .resume-entry-heading {
+            flex-direction: row;
+            align-items: start;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .resume-projects {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .resume-project:last-child {
+            grid-column: 1 / -1;
+        }
+    }
+</style>

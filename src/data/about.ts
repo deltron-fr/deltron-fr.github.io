@@ -1,14 +1,15 @@
 export const about = {
-    heading: 'Who am I',
+    heading: 'What I build',
     paragraphs: [
-        "I'm Yorukot, a Taiwan-based developer and current college student at NYCU who likes building things that feel fast, useful, and a little bit personal.",
-        'A lot of my work starts with curiosity. Sometimes that means improving a terminal workflow, sometimes it means designing a cleaner backend, and sometimes it is just a small idea I want to understand well enough to build myself.',
-        'I spend most of my time around Go, system design, open source, and the terminal. My projects include superfile, a modern terminal file manager, along with bots, web apps, experiments, and other tools I make because I enjoy the process.',
-        "Feel free to reach out if you'd like to chat. I'm also a big movie fan, and I'm currently available for work, so don't hesitate to get in touch if you'd like to hire me.",
+        "I'm Kelechi Ogbonnaya, a software engineer based in Nigeria.",
+        'I\'m interested in the parts of software engineering that make everything else possible: processes, operating systems, networking, storage, virtualization, and the infrastructure that keeps applications running.',
+        'I work primarily with Go and Python, building backend systems and contributing to the tools and infrastructure around them. At Bomach Group, I develop an internal ERP. I also contribute to Lima, a CNCF project focused on Linux virtual machines.',
+        'Outside work, I spend much of my time exploring how systems work under the hood and building small projects to turn that curiosity into practical experience.',
+        "I'm particularly interested in backend, systems, and platform engineering.",
     ],
     interests: [
+        { label: 'Backend systems', icon: 'web' },
+        { label: 'Linux and infrastructure', icon: 'terminal' },
         { label: 'Open source', icon: 'openSource' },
-        { label: 'CLI and TUI', icon: 'terminal' },
-        { label: 'Full-stack web', icon: 'web' },
     ],
 } as const;

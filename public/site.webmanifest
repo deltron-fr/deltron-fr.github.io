@@ -1,6 +1,6 @@
 {
-  "name": "Yorukot",
-  "short_name": "Yorukot",
+  "name": "Kelechi Ogbonnaya",
+  "short_name": "Kelechi",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -15,7 +15,7 @@
       "purpose": "any maskable"
     }
   ],
-  "theme_color": "#ff8b2b",
-  "background_color": "#000000",
+  "theme_color": "#171615",
+  "background_color": "#171615",
   "display": "standalone"
 }

@@ -56,10 +56,7 @@ const resolvedTitle = pageTitle(title);
 const resolvedDescription = pageDescription(description);
 const canonicalUrl = absoluteUrl(canonicalPath);
 const imageUrl = absoluteAssetUrl(image);
-const rssUrl = absoluteAssetUrl(site.rssPath);
 const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
-const hideHeaderOnScroll = Astro.url.pathname.startsWith('/blog');
-const analyticsEnabled = import.meta.env.PROD;
 ---
 
 <!doctype html>
@@ -75,12 +72,6 @@ const analyticsEnabled = import.meta.env.PROD;
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="canonical" href={canonicalUrl} />
         <link rel="sitemap" href={site.sitemapPath} />
-        <link
-            rel="alternate"
-            type="application/rss+xml"
-            title={`${site.name} RSS`}
-            href={rssUrl}
-        />
         <meta name="description" content={resolvedDescription} />
         <meta name="robots" content={robots} />
         <meta name="theme-color" content={site.themeColor} />
@@ -113,65 +104,13 @@ const analyticsEnabled = import.meta.env.PROD;
         <meta name="twitter:image" content={imageUrl} />
         <meta name="twitter:image:alt" content={imageAlt} />
         <meta name="generator" content={Astro.generator} />
-        {analyticsEnabled && (
-            <script is:inline>
-                const loadExternalScript = (src, attributes = {}) => {
-                    if (document.querySelector(`script[src="${src}"]`)) {
-                        return;
-                    }
-
-                    const script = document.createElement('script');
-                    script.src = src;
-
-                    for (const [key, value] of Object.entries(attributes)) {
-                        script.setAttribute(key, value);
-                    }
-
-                    document.head.append(script);
-                };
-
-                const loadAnalytics = () => {
-                    loadExternalScript('https://www.googletagmanager.com/gtag/js?id=G-SSQL8Y8XE4', {
-                        async: '',
-                    });
-
-                    window.dataLayer = window.dataLayer || [];
-                    window.gtag = window.gtag || function gtag() {
-                        window.dataLayer.push(arguments);
-                    };
-
-                    window.gtag('js', new Date());
-                    window.gtag('config', 'G-SSQL8Y8XE4');
-
-                    loadExternalScript('https://umami.yorukot.me/script.js', {
-                        defer: '',
-                        'data-website-id': 'f4ac5969-a156-4a5b-a8b2-bde72cb20c73',
-                    });
-                };
-
-                const scheduleAnalytics = () => {
-                    if ('requestIdleCallback' in window) {
-                        window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
-                        return;
-                    }
-
-                    window.setTimeout(loadAnalytics, 1200);
-                };
-
-                if (document.readyState === 'complete') {
-                    scheduleAnalytics();
-                } else {
-                    window.addEventListener('load', scheduleAnalytics, { once: true });
-                }
-            </script>
-        )}
         {jsonLdItems.map((item) => (
             <script is:inline type="application/ld+json" set:html={safeJsonLd(item)} />
         ))}
         <title>{resolvedTitle}</title>
     </head>
     <body id="top">
-        <Header hideOnScroll={hideHeaderOnScroll} />
+        <Header />
         <main>
             <slot />
         </main>
@@ -190,12 +129,12 @@ const analyticsEnabled = import.meta.env.PROD;
     }
 
     main {
-        padding-top: 4rem;
+        padding-top: 4.5rem;
     }
 
     @media (min-width: 800px) {
         main {
-            padding-top: 6rem;
+            padding-top: 5rem;
         }
     }
 </style>

@@ -1,25 +1,21 @@
 {
-  "name": "yorukot-me",
+  "name": "deltron-fr-portfolio",
   "type": "module",
   "version": "0.0.1",
   "engines": {
     "node": ">=22.12.0"
   },
+  "packageManager": "pnpm@12.16.1",
   "scripts": {
     "dev": "astro dev",
     "lint": "astro check",
     "test": "node --test tests/*.test.mjs",
-    "favicons": "node scripts/generate-favicons.mjs",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "deploy": "pnpm build && wrangler deploy"
+    "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.1.10",
-    "@astrojs/rss": "^4.0.18",
     "@fontsource/inter": "^5.2.8",
-    "@fontsource/noto-sans-tc": "^5.2.9",
     "@fontsource/space-grotesk": "^5.2.10",
     "@tailwindcss/vite": "^4.2.2",
     "animejs": "^4.3.6",
@@ -32,7 +28,6 @@
     "@astrojs/check": "^0.9.8",
     "@iconify/json": "^2.2.453",
     "typescript": "^5.9.3",
-    "unplugin-icons": "^23.0.1",
-    "wrangler": "^4.83.0"
+    "unplugin-icons": "^23.0.1"
   }
 }

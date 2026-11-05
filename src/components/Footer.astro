@@ -1,42 +1,25 @@
 ---
-import { footerLinks, navigationItems } from "../data/navigation";
-import { site } from "../data/site";
+import { footerLinks, navigationItems } from '../data/navigation';
+import { site } from '../data/site';
 
 const year = new Date().getFullYear();
 const opensInNewTab = (item: { href: string; externalDestination?: boolean }) =>
     item.externalDestination || item.href.startsWith('http');
-const footerNavigationItems = [
-    ...navigationItems,
-    { label: 'Calendar', href: '/cal', externalDestination: true },
-    { label: 'Resume', href: 'https://resume.yorukot.me' },
-    { label: 'RSS', href: site.rssPath },
-] as const;
+const footerNavigationItems = navigationItems;
 ---
 
-<footer class="footer border-t border-text bg-text px-6 py-16 text-background sm:px-10 sm:py-20">
-    <div class="footer-content space-y-10">
-        <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div class="space-y-4">
-                <h2 class="text-5xl font-bold uppercase tracking-[0.18em] text-background">
-                    {site.name}
-                </h2>
-                <p class="max-w-2xl text-lg leading-8 text-background/70">
-                    Welcome to my corner of the internet.
-                </p>
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-identity">
+            <div>
+                <p class="footer-label">END // INDEX</p>
+                <h2>{site.name}</h2>
             </div>
-
-            <a
-                class="footer-key-link scramble-link lg:justify-self-end"
-                href="/.well-known/openpgpkey/hu/aeii9rmagouy1owpp7e5ftpxjof7h41n?l=hi"
-                target="_blank"
-                rel="noreferrer"
-            >
-                <span class="scramble-link-label" data-scramble-text>OpenPGP: F018 8B9B F901 C94E</span>
-            </a>
+            <p>Backend systems, infrastructure tools, and open source work.</p>
         </div>
 
-        <div class="grid gap-8 border-b border-background/30 pb-10 lg:grid-cols-2">
-            <nav class="flex flex-wrap gap-x-8 gap-y-4" aria-label="Footer navigation">
+        <div class="footer-links">
+            <nav aria-label="Footer navigation">
                 {footerNavigationItems.map((item) => (
                     <a
                         class="footer-link scramble-link"
@@ -49,7 +32,7 @@ const footerNavigationItems = [
                 ))}
             </nav>
 
-            <nav class="flex flex-wrap gap-x-8 gap-y-4 lg:justify-end" aria-label="Footer links">
+            <nav aria-label="Social links">
                 {footerLinks.map((item) => (
                     <a
                         class="footer-link scramble-link"
@@ -63,61 +46,96 @@ const footerNavigationItems = [
             </nav>
         </div>
 
-        <div class="grid gap-3 font-mono text-sm uppercase tracking-[0.14em] text-background/60 sm:grid-cols-2 sm:items-center">
-            <span class="sm:justify-self-start">Built with love and open source</span>
-            <span class="sm:justify-self-end">{year}</span>
+        <div class="footer-meta">
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+            <span>{year} // Nigeria</span>
         </div>
     </div>
 </footer>
 
 <style>
+    .footer {
+        border-top: 1px solid var(--color-border);
+        background:
+            radial-gradient(circle at 12% 100%, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent 24rem),
+            var(--color-surface);
+        padding: 4rem 1.5rem 2rem;
+        color: var(--color-text);
+    }
+
     .footer-content {
-        width: 100%;
+        width: min(100%, 72rem);
+        margin-inline: auto;
+    }
+
+    .footer-identity {
+        display: grid;
+        gap: 1.5rem;
+        padding-bottom: 3rem;
+    }
+
+    .footer-label,
+    .footer-meta {
+        color: var(--color-muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .footer-label { margin-bottom: 0.85rem; color: var(--color-accent); }
+
+    .footer h2 {
+        font-size: clamp(2rem, 5vw, 4rem);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        line-height: 1;
+    }
+
+    .footer-identity > p {
+        max-width: 31rem;
+        color: var(--color-muted);
+        line-height: 1.7;
+    }
+
+    .footer-links {
+        display: grid;
+        gap: 1.5rem;
+        border-block: 1px solid var(--color-border);
+        padding-block: 1.5rem;
+    }
+
+    .footer-links nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem 1.5rem;
     }
 
     .footer-link {
-        color: var(--color-background);
-        font-size: 1rem;
-        font-weight: 700;
-        white-space: nowrap;
+        color: var(--color-muted);
+        font-size: 0.88rem;
+        font-weight: 600;
         text-decoration: none;
-        transition:
-            color 180ms ease-out,
-            text-decoration-color 180ms ease-out;
+        transition: color 180ms ease-out;
     }
 
     .footer-link:hover,
-    .footer-link:focus-visible {
-        color: var(--color-background);
-        text-decoration-color: var(--color-primary);
-        outline: none;
+    .footer-link:focus-visible { color: var(--color-primary); outline: none; }
+
+    .footer-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 1.5rem;
     }
 
-    .footer-key-link {
-        display: inline-flex;
-        color: var(--color-background);
-        font-family: var(--font-mono);
-        font-size: 0.875rem;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        text-decoration: underline;
-        text-decoration-color: var(--color-background);
-        text-underline-offset: 0.35em;
-        transition:
-            color 180ms ease-out,
-            text-decoration-color 180ms ease-out;
-    }
+    .footer-meta a { color: var(--color-primary); text-decoration: none; }
 
-    .footer-key-link:hover,
-    .footer-key-link:focus-visible {
-        color: var(--color-background);
-        text-decoration-color: var(--color-primary);
-        outline: none;
+    @media (min-width: 800px) {
+        .footer { padding: 5rem 2.5rem 2.5rem; }
+        .footer-identity { grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.5fr); align-items: end; }
+        .footer-links { grid-template-columns: 1fr auto; }
+        .footer-links nav:last-child { justify-content: flex-end; }
     }
-
-    .footer-key-link .scramble-link-label::after {
-        display: none;
-    }
-
 </style>

@@ -1,0 +1,87 @@
+<div class="signal-field" aria-hidden="true" data-signal-field>
+    <div class="signal-field-grid"></div>
+    <svg class="signal-field-static" viewBox="0 0 1200 800" preserveAspectRatio="none">
+        <path d="M0 150H210V270H430V90H690V210H910V360H1200" />
+        <path d="M0 610H170V490H350V670H610V520H820V690H1040V560H1200" />
+        <path d="M120 0V170H310V370H540V290H760V430H980V260H1200" />
+        <path class="accent-route" d="M0 390H260V520H490V410H730V590H930V470H1200" />
+        <g>
+            <rect x="206" y="266" width="8" height="8" />
+            <rect x="426" y="86" width="8" height="8" />
+            <rect x="686" y="206" width="8" height="8" />
+            <rect x="346" y="666" width="8" height="8" />
+            <rect x="756" y="426" width="8" height="8" />
+            <rect class="accent-node" x="486" y="406" width="8" height="8" />
+        </g>
+    </svg>
+</div>
+
+<script>
+    import { mountSignalField } from '../scripts/signal-field';
+
+    document.querySelectorAll<HTMLElement>('[data-signal-field]').forEach((root) => {
+        const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!reduceMotion && connection?.saveData !== true && !root.dataset.mounted) {
+            root.dataset.mounted = 'true';
+            const start = () => {
+                const cleanup = mountSignalField(root);
+                window.addEventListener('pagehide', cleanup, { once: true });
+            };
+
+            if ('requestIdleCallback' in window) window.requestIdleCallback(start, { timeout: 900 });
+            else globalThis.setTimeout(start, 300);
+        }
+    });
+</script>
+
+<style>
+    .signal-field {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 72% 28%, color-mix(in srgb, var(--color-primary) 6%, transparent), transparent 32rem),
+            radial-gradient(circle at 18% 86%, color-mix(in srgb, var(--color-accent) 3%, transparent), transparent 28rem);
+    }
+
+    .signal-field-grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.26;
+        background-image:
+            linear-gradient(color-mix(in srgb, var(--color-primary) 6%, transparent) 1px, transparent 1px),
+            linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 6%, transparent) 1px, transparent 1px);
+        background-size: 92px 92px;
+        mask-image: linear-gradient(to bottom, black 5%, transparent 92%);
+    }
+
+    .signal-field-static {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        fill: color-mix(in srgb, var(--color-primary) 34%, transparent);
+        stroke: color-mix(in srgb, var(--color-primary) 13%, transparent);
+        stroke-width: 1.25;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .signal-field-static path { fill: none; }
+    .signal-field-static .accent-route { stroke: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+    .signal-field-static .accent-node { fill: color-mix(in srgb, var(--color-accent) 34%, transparent); }
+
+    .signal-field :global(canvas) {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (max-width: 767px) {
+        .signal-field-grid { background-size: 72px 72px; }
+    }
+</style>

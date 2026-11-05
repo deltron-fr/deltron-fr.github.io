@@ -22,8 +22,6 @@ const fontPath = (path: string) => resolve(process.cwd(), 'node_modules', path);
 const fonts = Promise.all([
     readFile(fontPath('@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff')),
     readFile(fontPath('@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff')),
-    readFile(fontPath('@fontsource/noto-sans-tc/files/noto-sans-tc-chinese-traditional-700-normal.woff')),
-    readFile(fontPath('@fontsource/noto-sans-tc/files/noto-sans-tc-chinese-traditional-400-normal.woff')),
 ]);
 
 const element = (type: string, props: Record<string, unknown> | null, ...children: unknown[]) => ({
@@ -34,7 +32,7 @@ const element = (type: string, props: Record<string, unknown> | null, ...childre
     },
 });
 
-const fontFamily = 'Space Grotesk, Noto Sans TC';
+const fontFamily = 'Space Grotesk';
 
 const normalizeOgText = (value: string) =>
     value
@@ -56,12 +54,7 @@ export async function renderOgImage({
     tags = [],
     lang = site.language,
 }: OgImageOptions) {
-    const [
-        spaceGroteskBold,
-        spaceGroteskMedium,
-        notoSansTcBold,
-        notoSansTcRegular,
-    ] = await fonts;
+    const [spaceGroteskBold, spaceGroteskMedium] = await fonts;
     const visibleTags = tags.slice(0, 4);
     const showTags = visibleTags.length > 0;
     const normalizedTitle = normalizeOgText(title);
@@ -78,7 +71,7 @@ export async function renderOgImage({
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    backgroundColor: '#000000',
+                    backgroundColor: '#171615',
                     color: '#d7d7d7',
                     padding: '58px 64px',
                     fontFamily,
@@ -105,7 +98,7 @@ export async function renderOgImage({
                     height: '560px',
                     right: '-210px',
                     bottom: '-260px',
-                    border: '1px solid rgba(255,139,43,0.5)',
+                    border: '1px solid rgba(193,132,104,0.35)',
                     borderRadius: '999px',
                 },
             }),
@@ -126,7 +119,7 @@ export async function renderOgImage({
                             display: 'flex',
                             alignItems: 'center',
                             gap: '16px',
-                            color: '#ff8b2b',
+                            color: '#c18468',
                             fontSize: 28,
                             fontWeight: 700,
                             textTransform: 'uppercase',
@@ -144,7 +137,7 @@ export async function renderOgImage({
                             fontWeight: 500,
                         },
                     },
-                    'yorukot.me',
+                    'deltron-fr.github.io',
                 ),
             ),
             element(
@@ -229,12 +222,12 @@ export async function renderOgImage({
                     {
                         style: {
                             display: 'flex',
-                            color: '#ff8b2b',
+                            color: '#c18468',
                             fontSize: 32,
                             fontWeight: 700,
                         },
                     },
-                    'Yorukot',
+                    'Kelechi Ogbonnaya',
                 ),
             ),
         ) as any,
@@ -251,18 +244,6 @@ export async function renderOgImage({
                     name: 'Space Grotesk',
                     data: spaceGroteskMedium,
                     weight: 500,
-                    style: 'normal',
-                },
-                {
-                    name: 'Noto Sans TC',
-                    data: notoSansTcBold,
-                    weight: 700,
-                    style: 'normal',
-                },
-                {
-                    name: 'Noto Sans TC',
-                    data: notoSansTcRegular,
-                    weight: 400,
                     style: 'normal',
                 },
             ],

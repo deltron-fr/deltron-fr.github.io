@@ -3,20 +3,18 @@ import IcBaselineDiscord from '~icons/ic/baseline-discord';
 import IcSharpEmail from '~icons/ic/sharp-email';
 import MdiArrowTopRight from '~icons/mdi/arrow-top-right';
 import MdiConsoleLine from '~icons/mdi/console-line';
+import MdiFileDocument from '~icons/mdi/file-document';
 import MdiGithub from '~icons/mdi/github';
-import MdiHeart from '~icons/mdi/heart';
 import MdiSourceBranch from '~icons/mdi/source-branch';
-import MdiTelegram from '~icons/mdi/telegram';
 import MdiWeb from '~icons/mdi/web';
-import BoidsBackground from '../components/BoidsBackground.astro';
+import SignalFieldBackground from '../components/SignalFieldBackground.astro';
 import { about } from '../data/about';
 import { contact } from '../data/contact';
 import { hero } from '../data/hero';
 import { site } from '../data/site';
 import { work } from '../data/work';
-import { getPublishedBlogPosts } from '../data/blog';
 import Layout from '../layouts/Layout.astro';
-import { absoluteAssetUrl, absoluteUrl, blogPostPath } from '../lib/seo';
+import { absoluteAssetUrl, absoluteUrl } from '../lib/seo';
 
 const interestIconMap = {
     openSource: MdiSourceBranch,
@@ -28,24 +26,11 @@ const contactIconMap = {
     Email: IcSharpEmail,
     GitHub: MdiGithub,
     Discord: IcBaselineDiscord,
-    Telegram: MdiTelegram,
 };
 
 type WorkItem = (typeof work.work)[number];
 type ContactChannel = (typeof contact.channels)[number];
-type BlogPost = Awaited<ReturnType<typeof getPublishedBlogPosts>>[number];
-
-const featuredPosts: BlogPost[] = (await getPublishedBlogPosts())
-    .filter((post: BlogPost) => post.data.featured)
-    .sort((a: BlogPost, b: BlogPost) => b.data.publish_date.getTime() - a.data.publish_date.getTime())
-    .slice(0, 3);
-
-const formatDate = (date: Date) =>
-    new Intl.DateTimeFormat('en', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-    }).format(date);
+type ResumeOption = (typeof contact.resume.options)[number];
 
 const homeJsonLd = [
     {
@@ -68,16 +53,11 @@ const homeJsonLd = [
         url: absoluteUrl('/'),
         email: site.email,
         image: absoluteAssetUrl(site.defaultOgImage),
-        sameAs: [
-            site.social.github,
-            site.social.telegram,
-            site.social.youtube,
-            site.social.kofi,
-        ],
-        knowsAbout: ['Open source', 'CLI', 'TUI', 'Backend development', 'Full-stack web'],
+        sameAs: [site.social.github],
+        knowsAbout: ['Backend development', 'Systems engineering', 'Infrastructure', 'Go', 'Python', 'Open source'],
     },
 ];
-const homeTitle = 'Yorukot | Open-Source Developer';
+const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
 ---
 
 <Layout
@@ -85,32 +65,46 @@ const homeTitle = 'Yorukot | Open-Source Developer';
     description={site.description}
     canonicalPath="/"
     image={site.defaultOgImage}
-    imageAlt="Yorukot open-source developer social image"
+    imageAlt="Kelechi Ogbonnaya systems and backend engineer social image"
     jsonLd={homeJsonLd}
 >
-    <section class="hero-section relative isolate overflow-hidden px-6 py-8 sm:px-10 sm:py-10">
-        <BoidsBackground />
+    <section class="hero-section relative isolate overflow-hidden px-6 sm:px-10">
+        <SignalFieldBackground />
 
-        <div class="hero-content relative z-10 flex items-end">
-            <div class="select-none space-y-4">
-                <p class="hero-intro font-medium tracking-[0.12em] text-text">
-                    <span data-hero-intro></span><span
-                        class="hero-intro-caret ml-1 inline-block h-[1em] w-px translate-y-[0.12em] bg-primary opacity-0"
-                        data-hero-intro-caret
-                        aria-hidden="true"></span>
-                </p>
+        <div class="hero-content relative z-10 flex items-center">
+            <div class="hero-shell">
+                <div class="hero-copy">
+                    <p class="hero-command" data-hero-reveal>
+                        <span class="text-muted">~/portfolio</span>
+                        <span class="text-accent">$</span>
+                        <span>whoami</span>
+                    </p>
 
-                <h1
-                    class="hero-headline uppercase tracking-[0.26em] text-text font-extrabold"
-                    data-random-clone-text
-                >
-                    <span data-random-clone-label>{hero.headline}</span>
-                </h1>
+                    <div class="hero-availability" data-hero-reveal>
+                        <span class="hero-status-dot" aria-hidden="true"></span>
+                        {hero.availability}
+                    </div>
+
+                    <h1 class="hero-title" data-hero-reveal>{hero.name}</h1>
+                    <p class="hero-role" data-hero-reveal>{hero.headline}</p>
+                    <p class="hero-summary" data-hero-reveal>{hero.summary}</p>
+
+                    <div class="hero-actions" data-hero-reveal>
+                        <a class="hero-primary-action" href="#my-work">View my work</a>
+                        <a class="hero-secondary-action" href="/resume/">View resume</a>
+                    </div>
+                </div>
+
+                <dl class="hero-readout" data-hero-reveal>
+                    <div><dt>LOC</dt><dd>{hero.location}</dd></div>
+                    <div><dt>FOCUS</dt><dd>Systems + Backend</dd></div>
+                    <div><dt>STACK</dt><dd>Go + Python</dd></div>
+                </dl>
             </div>
         </div>
     </section>
 
-    <section class="border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="about" data-reveal-section>
+    <section class="home-section border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="about" data-reveal-section>
         <div class="home-content flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
             <div class="space-y-5 lg:max-w-sm">
                 <h2
@@ -125,29 +119,27 @@ const homeTitle = 'Yorukot | Open-Source Developer';
                     {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
                 </div>
 
-                <div class="grid grid-cols-[auto_1fr] gap-px border-y border-border bg-border text-sm uppercase tracking-[0.16em] text-text sm:grid-cols-[auto_1fr_auto_1fr_auto_1fr]">
+                <div class="interest-list flex flex-wrap gap-3 text-sm uppercase tracking-[0.12em] text-text">
                     {about.interests.map((interest) => (
-                        <>
+                        <div class="interest-item">
                             {(() => {
                                 const Icon = interestIconMap[interest.icon];
 
                                 return (
-                                    <div class="flex min-h-14 items-center justify-center bg-background px-4 text-xl text-primary">
+                                    <span class="text-lg text-primary">
                                         <Icon aria-hidden="true" />
-                                    </div>
+                                    </span>
                                 );
                             })()}
-                            <div class="flex min-h-14 items-center bg-background px-4">
-                                <span>{interest.label}</span>
-                            </div>
-                        </>
+                            <span>{interest.label}</span>
+                        </div>
                     ))}
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="my-work" data-reveal-section>
+    <section class="home-section border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="my-work" data-reveal-section>
         <div class="home-content space-y-12">
             <div class="max-w-sm">
                 <h2
@@ -163,9 +155,9 @@ const homeTitle = 'Yorukot | Open-Source Developer';
                     {work.intro}
                 </p>
 
-                <div class="work-list-frame grid border-y border-border bg-background">
+                <div class="work-list-frame grid border border-border bg-surface">
                     {work.work.map((item: WorkItem) => (
-                        <article class="work-reveal-row bg-background text-text" data-work-reveal>
+                        <article class="work-reveal-row bg-surface text-text" data-work-reveal>
                             <div class="space-y-4 px-0 py-5 sm:px-5">
                                 <div class="flex items-start justify-between gap-4">
                                     <div class="font-mono text-sm text-primary">
@@ -219,78 +211,54 @@ const homeTitle = 'Yorukot | Open-Source Developer';
         </div>
     </section>
 
-    <section class="border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="blog" data-reveal-section>
+    <section class="home-section border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="resume" data-reveal-section>
         <div class="home-content space-y-12">
             <div class="max-w-sm">
                 <h2
                     class="about-reveal about-reveal-heading text-5xl uppercase text-text font-bold"
                     data-section-reveal
                 >
-                    <span>BLOG</span>
+                    <span>RESUME</span>
                 </h2>
             </div>
 
             <div class="space-y-8 text-text">
-                <p class="text-lg leading-8 text-text/80">
-                    I write about open-source projects, terminal tools, backend systems, web experiments, and the
-                    small decisions behind shipping software.
+                <p class="max-w-2xl text-lg leading-8 text-text/80">
+                    {contact.resume.intro}
                 </p>
 
-                {
-                    featuredPosts.length > 0 && (
-                        <div class="border-y border-border">
-                            {featuredPosts.map((post: BlogPost) => (
-                                <article class="blog-preview-item border-t border-border py-8 first:border-t-0">
-                                    <div class="space-y-4">
-                                        <div class="flex flex-wrap items-center gap-3 font-mono text-sm uppercase tracking-[0.12em] text-text/60">
-                                            <time class="text-primary" datetime={post.data.publish_date.toISOString()}>
-                                                {formatDate(post.data.publish_date)}
-                                            </time>
+                <div class="grid gap-px border border-border bg-border">
+                    {contact.resume.options.map((resume: ResumeOption) => (
+                        <a
+                            class="resume-card group relative isolate overflow-hidden bg-surface p-6 text-text no-underline transition-colors focus-visible:outline-none sm:p-8"
+                            href={resume.href}
+                        >
+                            <span class="resume-card-logo" aria-hidden="true">
+                                <MdiFileDocument />
+                            </span>
 
-                                            {post.data.featured && (
-                                                <span class="inline-flex border border-primary px-2 py-1 text-xs text-primary">
-                                                    Featured
-                                                </span>
-                                            )}
-
-                                            {post.data.tags.slice(0, 3).map((tag: string) => (
-                                                <span class="border border-border px-2 py-1 text-xs text-text/60">
-                                                    #{tag}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        <h3 class="text-xl font-bold leading-tight text-text sm:text-2xl">
-                                            <a
-                                                class="underline decoration-border underline-offset-4 transition-colors hover:text-primary hover:decoration-primary focus-visible:text-primary focus-visible:decoration-primary focus-visible:outline-none"
-                                                href={blogPostPath(post.data.post_slug)}
-                                            >
-                                                {post.data.title}
-                                            </a>
-                                        </h3>
-
-                                        <p class="text-base leading-7 text-text/70">
-                                            {post.data.description}
-                                        </p>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    )
-                }
-
-                <a
-                    class="about-blog-link inline-flex border border-border px-4 py-3 font-mono text-sm uppercase tracking-[0.14em] text-primary no-underline transition-colors hover:border-primary hover:bg-primary hover:text-background focus-visible:border-primary focus-visible:bg-primary focus-visible:text-background focus-visible:outline-none"
-                    href="/blog/"
-                >
-                    {featuredPosts.length > 0 ? 'More from blog' : 'Go to blog'}
-                </a>
-
+                            <div class="relative z-10 space-y-5">
+                                <div class="font-mono text-sm uppercase tracking-[0.14em] text-primary">
+                                    View HTML resume
+                                </div>
+                                <h3 class="max-w-sm text-3xl font-bold uppercase text-current sm:text-4xl">
+                                    {resume.title}
+                                </h3>
+                                <p class="max-w-md text-base leading-7 text-text/70 transition-colors group-hover:text-text/80 group-focus-visible:text-text/80">
+                                    {resume.description}
+                                </p>
+                                <span class="inline-flex border border-border px-3 py-2 font-mono text-sm text-primary transition-colors group-hover:border-primary group-focus-visible:border-primary">
+                                    Open resume
+                                </span>
+                            </div>
+                        </a>
+                    ))}
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="contact" data-reveal-section>
+    <section class="home-section border-t border-border px-6 py-20 sm:px-10 sm:py-24" id="contact" data-reveal-section>
         <div class="home-content space-y-12">
             <div class="max-w-sm">
                 <h2
@@ -306,30 +274,28 @@ const homeTitle = 'Yorukot | Open-Source Developer';
                     {contact.intro}
                 </p>
 
-                <div class="grid gap-px border-y border-border bg-border lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
+                <div class="grid gap-px border border-border bg-border lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
                     <a
-                        class="donate-panel group relative isolate grid min-h-72 overflow-hidden bg-background p-6 text-text no-underline transition-colors focus-visible:outline-none sm:p-8 lg:grid-cols-[7rem_1fr] lg:gap-5"
-                        href={contact.donate.href}
-                        target="_blank"
-                        rel="noreferrer"
+                        class="contact-cta group relative isolate grid min-h-72 overflow-hidden bg-surface p-6 text-text no-underline transition-colors focus-visible:outline-none sm:p-8 lg:grid-cols-[7rem_1fr] lg:gap-5"
+                        href={contact.cta.href}
                     >
-                        <span class="donate-panel-logo" aria-hidden="true">
-                            <MdiHeart />
+                        <span class="contact-cta-logo" aria-hidden="true">
+                            <MdiFileDocument />
                         </span>
 
-                        <div class="relative z-10 font-mono text-sm uppercase tracking-[0.14em] text-primary transition-colors group-hover:text-background group-focus-visible:text-background">
-                            /{contact.donate.label}
+                        <div class="relative z-10 font-mono text-sm uppercase tracking-[0.14em] text-primary transition-colors">
+                            /{contact.cta.label}
                         </div>
 
                         <div class="relative z-10 mt-8 space-y-5 lg:mt-0">
                             <h3 class="max-w-xl text-4xl font-bold uppercase text-current transition-colors sm:text-5xl">
-                                {contact.donate.title}
+                                {contact.cta.title}
                             </h3>
-                            <p class="max-w-xl text-lg leading-8 text-text/70 transition-colors group-hover:text-background/70 group-focus-visible:text-background/70">
-                                {contact.donate.description}
+                            <p class="max-w-xl text-lg leading-8 text-text/70 transition-colors group-hover:text-text/80 group-focus-visible:text-text/80">
+                                {contact.cta.description}
                             </p>
-                            <div class="inline-flex border border-border px-3 py-2 font-mono text-sm text-primary transition-colors group-hover:border-background group-hover:text-background group-focus-visible:border-background group-focus-visible:text-background">
-                                Ko-fi
+                            <div class="inline-flex border border-border px-3 py-2 font-mono text-sm text-primary transition-colors group-hover:border-primary group-focus-visible:border-primary">
+                                Email me
                             </div>
                         </div>
                     </a>
@@ -340,7 +306,7 @@ const homeTitle = 'Yorukot | Open-Source Developer';
 
                             return (
                                 <a
-                                    class="contact-channel group relative isolate overflow-hidden bg-background p-5 text-text no-underline transition-colors focus-visible:outline-none sm:p-6"
+                                    class="contact-channel group relative isolate overflow-hidden bg-surface p-5 text-text no-underline transition-colors focus-visible:outline-none sm:p-6"
                                     href={item.href}
                                     target={item.href.startsWith('mailto:') ? undefined : '_blank'}
                                     rel={item.href.startsWith('mailto:') ? undefined : 'noreferrer'}
@@ -354,7 +320,7 @@ const homeTitle = 'Yorukot | Open-Source Developer';
                                             <h3 class="text-xl font-bold text-current transition-colors">
                                                 {item.label}
                                             </h3>
-                                            <span class="font-mono text-sm text-primary transition-colors group-hover:text-background group-focus-visible:text-background">
+                                            <span class="font-mono text-sm text-primary transition-colors">
                                                 {item.value}
                                             </span>
                                         </div>
@@ -369,174 +335,328 @@ const homeTitle = 'Yorukot | Open-Source Developer';
     </section>
 </Layout>
 
+
 <style>
-    .home-content {
+    .home-content,
+    .hero-shell {
         width: 100%;
         max-width: 72rem;
         margin-inline: auto;
     }
 
+    .home-section {
+        position: relative;
+        background:
+            linear-gradient(110deg, color-mix(in srgb, var(--color-primary) 2.5%, transparent), transparent 42%),
+            var(--color-background);
+    }
+
+    .home-section:nth-of-type(odd) {
+        background:
+            linear-gradient(290deg, color-mix(in srgb, var(--color-primary) 3.5%, transparent), transparent 45%),
+            color-mix(in srgb, var(--color-surface) 42%, var(--color-background));
+    }
+
     .hero-section {
-        min-height: calc(100vh - 4rem);
+        min-height: calc(100svh - 4.5rem);
     }
 
     .hero-content {
-        min-height: calc(100vh - 9.5rem);
+        min-height: calc(100svh - 4.5rem);
+        padding-block: 4rem;
     }
 
-    @media (min-width: 800px) {
-        .hero-section {
-            min-height: calc(100vh - 6.5rem);
-        }
-
-        .hero-content {
-            min-height: calc(100vh - 12rem);
-        }
+    .hero-shell {
+        display: grid;
+        align-items: end;
+        gap: 2.5rem;
     }
 
-    .hero-headline {
-        font-size: clamp(1rem, 9vw, 6rem);
-        line-height: 1;
+    .hero-copy {
+        max-width: 48rem;
+        border-left: 1px solid color-mix(in srgb, var(--color-primary) 65%, var(--color-border));
+        padding: 1.5rem 0 1.5rem clamp(1.25rem, 4vw, 3rem);
+        background: linear-gradient(90deg, color-mix(in srgb, var(--color-background) 76%, transparent), transparent);
     }
 
-    .hero-intro {
-        font-size: clamp(1rem, 3vw, 1.875rem);
-        line-height: 1.2;
+    .hero-command,
+    .hero-availability,
+    .hero-readout {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
     }
 
-    .hero-intro-caret.is-visible {
-        opacity: 1;
-        animation: hero-intro-caret-blink 700ms steps(1) infinite;
+    .hero-command {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 2.25rem;
+        color: var(--color-text);
     }
 
-    .donate-panel:hover,
-    .donate-panel:focus-visible {
-        background: var(--color-text);
-        color: var(--color-background);
+    .hero-availability {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1.25rem;
+        color: var(--color-muted);
     }
 
-    .donate-panel-logo {
-        position: absolute;
-        right: 1.5rem;
-        bottom: -1rem;
-        z-index: 0;
-        color: var(--color-background);
-        font-size: 12rem;
-        line-height: 1;
+    .hero-status-dot {
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 50%;
+        background: var(--color-primary);
+        box-shadow: 0 0 0.5rem color-mix(in srgb, var(--color-primary) 36%, transparent);
+    }
+
+    .hero-title {
+        max-width: 12ch;
+        font-size: clamp(3rem, 8vw, 6.75rem);
+        font-weight: 650;
+        letter-spacing: -0.045em;
+        line-height: 0.92;
+        text-wrap: balance;
+    }
+
+    .hero-role {
+        margin-top: 1.25rem;
+        color: var(--color-primary);
+        font-size: clamp(1.25rem, 3vw, 2rem);
+        font-weight: 500;
+        letter-spacing: -0.015em;
+    }
+
+    .hero-summary {
+        max-width: 42rem;
+        margin-top: 1.25rem;
+        color: var(--color-muted);
+        font-size: clamp(1rem, 2vw, 1.16rem);
+        line-height: 1.75;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 2rem;
+    }
+
+    .hero-primary-action,
+    .hero-secondary-action {
+        display: inline-flex;
+        min-height: 2.8rem;
+        align-items: center;
+        border: 1px solid var(--color-border);
+        padding-inline: 1rem;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: border-color 180ms ease-out, background 180ms ease-out, color 180ms ease-out;
+    }
+
+    .hero-primary-action {
+        border-color: var(--color-primary);
+        background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+        color: var(--color-primary);
+    }
+
+    .hero-secondary-action { color: var(--color-text); }
+
+    .hero-primary-action:hover,
+    .hero-primary-action:focus-visible,
+    .hero-secondary-action:hover,
+    .hero-secondary-action:focus-visible {
+        border-color: var(--color-primary);
+        background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+        color: var(--color-text);
+        outline: none;
+    }
+
+    .hero-readout {
+        display: grid;
+        width: min(100%, 46rem);
+        border: 1px solid var(--color-border);
+        background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+        backdrop-filter: blur(12px);
+    }
+
+    .hero-readout > div {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+        gap: 1rem;
+        padding: 0.8rem 1rem;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .hero-readout > div:first-child { border-top: 0; }
+    .hero-readout dt { color: var(--color-accent); }
+    .hero-readout dd { color: var(--color-muted); }
+
+    [data-hero-reveal] {
         opacity: 0;
-        pointer-events: none;
-        transform: translateX(1rem) rotate(-8deg);
-        transition:
-            opacity 420ms ease-out,
-            transform 420ms ease-out;
-        mask-image: linear-gradient(90deg, transparent 0%, black 100%);
-        -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 100%);
+        animation: hero-reveal 560ms ease-out forwards;
     }
 
-    .donate-panel:hover .donate-panel-logo,
-    .donate-panel:focus-visible .donate-panel-logo {
-        opacity: 0.16;
-        transform: translateX(0) rotate(-8deg);
+    [data-hero-reveal]:nth-child(2) { animation-delay: 80ms; }
+    [data-hero-reveal]:nth-child(3) { animation-delay: 150ms; }
+    [data-hero-reveal]:nth-child(4) { animation-delay: 220ms; }
+    [data-hero-reveal]:nth-child(5) { animation-delay: 290ms; }
+    [data-hero-reveal]:nth-child(6) { animation-delay: 360ms; }
+    .hero-readout[data-hero-reveal] { animation-delay: 420ms; }
+
+    .interest-item {
+        display: inline-flex;
+        min-height: 3rem;
+        align-items: center;
+        gap: 0.7rem;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        padding-inline: 0.9rem;
     }
 
-    .contact-channel-logo {
-        position: absolute;
-        top: 50%;
-        right: 1.5rem;
-        z-index: 0;
-        color: var(--color-background);
-        font-size: 7rem;
-        line-height: 1;
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(-50%);
-        transition:
-            opacity 420ms ease-out,
-            transform 420ms ease-out;
-        mask-image: linear-gradient(90deg, transparent 0%, black 100%);
-        -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 100%);
+    .contact-cta,
+    .resume-card,
+    .contact-channel {
+        transition: background 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out;
     }
 
+    .contact-cta:hover,
+    .contact-cta:focus-visible,
+    .resume-card:hover,
+    .resume-card:focus-visible,
     .contact-channel:hover,
     .contact-channel:focus-visible {
-        background: var(--color-text);
-        color: var(--color-background);
+        background: var(--color-surface-raised);
+        color: var(--color-text);
+        outline: none;
+    }
+
+    .contact-cta-logo,
+    .resume-card-logo,
+    .contact-channel-logo {
+        position: absolute;
+        z-index: 0;
+        color: var(--color-primary);
+        line-height: 1;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 320ms ease-out, transform 320ms ease-out;
+    }
+
+    .contact-cta-logo,
+    .resume-card-logo {
+        right: 1.5rem;
+        bottom: -1rem;
+        font-size: 12rem;
+        transform: translateX(1rem) rotate(-8deg);
+    }
+
+    .resume-card-logo { font-size: 10rem; }
+
+    .contact-channel-logo {
+        top: 50%;
+        right: 1.5rem;
+        font-size: 7rem;
+        transform: translateY(-50%) translateX(1rem);
+    }
+
+    .contact-cta:hover .contact-cta-logo,
+    .contact-cta:focus-visible .contact-cta-logo,
+    .resume-card:hover .resume-card-logo,
+    .resume-card:focus-visible .resume-card-logo,
+    .contact-channel:hover .contact-channel-logo,
+    .contact-channel:focus-visible .contact-channel-logo {
+        opacity: 0.1;
+        transform: translateX(0) rotate(-8deg);
     }
 
     .contact-channel:hover .contact-channel-logo,
     .contact-channel:focus-visible .contact-channel-logo {
-        opacity: 0.18;
-        transform: translateY(-50%) translateX(-0.25rem);
+        transform: translateY(-50%) translateX(0);
     }
 
     .about-reveal {
         position: relative;
         display: block;
-        overflow: hidden;
+        width: fit-content;
+        padding-left: 1rem;
         color: var(--color-text);
-        transition: color 300ms ease-out var(--about-reveal-delay, 0ms);
+        opacity: 0;
+        transform: translateY(1rem);
+        transition:
+            opacity 420ms ease-out var(--about-reveal-delay, 0ms),
+            transform 420ms ease-out var(--about-reveal-delay, 0ms);
     }
 
     .about-reveal::before {
         content: "";
         position: absolute;
-        inset: 0;
-        transform: scaleX(0);
-        transform-origin: left;
-        background: var(--color-text);
-        transition: transform 520ms ease-out var(--about-reveal-delay, 0ms);
-    }
-
-    .about-reveal > span {
-        position: relative;
-        z-index: 1;
-    }
-
-    .about-reveal-heading {
-        width: fit-content;
-        padding: 0.08em 0.14em;
-        margin-inline: -0.14em;
+        top: 0.08em;
+        bottom: 0.08em;
+        left: 0;
+        width: 2px;
+        background: var(--color-primary);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 420ms ease-out var(--about-reveal-delay, 0ms);
     }
 
     .about-reveal.is-visible {
-        color: var(--color-background);
+        opacity: 1;
+        transform: translateY(0);
     }
 
-    .about-reveal.is-visible::before {
-        transform: scaleX(1);
-    }
-
-    .work-reveal-row {
-        border-top: 1px solid var(--color-border);
-        opacity: 0;
-        transform: translateX(2rem);
-        transition:
-            background 180ms ease-out,
-            border-color 180ms ease-out;
-    }
-
-    .work-reveal-row:hover,
-    .work-reveal-row:focus-within {
-        border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
-        background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 24rem),
-            var(--color-background);
-    }
+    .about-reveal.is-visible::before { transform: scaleY(1); }
 
     .work-list-frame {
         overflow-x: hidden;
         overflow-x: clip;
     }
 
-    .work-reveal-row:first-child {
-        border-top: 0;
+    .work-reveal-row {
+        border-top: 1px solid var(--color-border);
+        opacity: 0;
+        transform: translateY(1.25rem);
+        transition: background 180ms ease-out, border-color 180ms ease-out;
+    }
+
+    .work-reveal-row:first-child { border-top: 0; }
+
+    .work-reveal-row:hover,
+    .work-reveal-row:focus-within {
+        border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 24rem),
+            var(--color-surface-raised);
+    }
+
+    @media (min-width: 800px) {
+        .hero-section,
+        .hero-content { min-height: calc(100svh - 5rem); }
+
+        .hero-shell {
+            grid-template-columns: minmax(0, 1fr) minmax(19rem, 0.48fr);
+            gap: 4rem;
+        }
+
+        .hero-readout { margin-bottom: 1.5rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+
+        [data-hero-reveal],
         .about-reveal,
         .about-reveal::before {
-            transition-duration: 0ms;
-            transition-delay: 0ms;
+            opacity: 1;
+            transform: none;
+            animation: none;
+            transition: none;
         }
 
         .work-reveal-row {
@@ -545,261 +665,66 @@ const homeTitle = 'Yorukot | Open-Source Developer';
         }
     }
 
-    @keyframes hero-intro-caret-blink {
-        50% {
-            opacity: 0;
-        }
+    @keyframes hero-reveal {
+        from { opacity: 0; transform: translateY(1rem); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 
-<script>
-    import { animate, onScroll, splitText, utils } from 'animejs';
-    import { hero } from '../data/hero';
 
-    const intro = document.querySelector('[data-hero-intro]');
-    const introCaret = document.querySelector('[data-hero-intro-caret]');
-    const label = document.querySelector('[data-random-clone-label]');
+<script>
+    import { animate, onScroll } from 'animejs';
+
     const revealSections = document.querySelectorAll('[data-reveal-section]');
     const workRevealItems = document.querySelectorAll('[data-work-reveal]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     revealSections.forEach((section) => {
         const revealItems = section.querySelectorAll('[data-section-reveal]');
-
-        if (!(section instanceof HTMLElement) || !revealItems.length) {
-            return;
-        }
+        if (!(section instanceof HTMLElement) || !revealItems.length) return;
 
         const showRevealItems = () => {
-            revealItems.forEach((item) => {
-                item.classList.add('is-visible');
-            });
+            revealItems.forEach((item) => item.classList.add('is-visible'));
         };
 
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (reduceMotion) {
             showRevealItems();
         } else if ('IntersectionObserver' in window) {
-            const revealObserver = new IntersectionObserver(
-                (entries) => {
-                    if (entries.some((entry) => entry.isIntersecting)) {
-                        showRevealItems();
-                        revealObserver.disconnect();
-                    }
-                },
-                {
-                    threshold: 0.35,
-                },
-            );
-
-            revealObserver.observe(section);
+            const observer = new IntersectionObserver((entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    showRevealItems();
+                    observer.disconnect();
+                }
+            }, { threshold: 0.3 });
+            observer.observe(section);
         } else {
             showRevealItems();
         }
     });
 
-    if (workRevealItems.length) {
-        const showWorkRevealItem = (item: Element) => {
-            if (!(item instanceof HTMLElement)) {
-                return;
-            }
-
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (reduceMotion) {
+        workRevealItems.forEach((item) => {
+            if (item instanceof HTMLElement) {
                 item.style.opacity = '1';
-                item.style.transform = 'translateX(0rem)';
-                return;
+                item.style.transform = 'translateY(0rem)';
             }
+        });
+    } else {
+        workRevealItems.forEach((item) => {
+            if (!(item instanceof HTMLElement)) return;
 
             animate(item, {
-                x: ['3rem', '0rem'],
+                y: ['1.25rem', '0rem'],
                 opacity: 1,
-                duration: 360,
+                duration: 420,
                 ease: 'out(3)',
+                autoplay: onScroll({
+                    target: item,
+                    enter: { target: 'top', container: '65%' },
+                    leave: { target: 'bottom', container: 'top' },
+                    repeat: false,
+                }),
             });
-        };
-
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            workRevealItems.forEach(showWorkRevealItem);
-        } else {
-            workRevealItems.forEach((item) => {
-                if (!(item instanceof HTMLElement)) {
-                    return;
-                }
-
-                animate(item, {
-                    x: ['3rem', '0rem'],
-                    opacity: 1,
-                    duration: 360,
-                    ease: 'out(3)',
-                    autoplay: onScroll({
-                        target: item,
-                        enter: { target: 'top', container: '60%' },
-                        leave: { target: 'bottom', container: 'top' },
-                        repeat: false,
-                    }),
-                });
-            });
-        }
-    }
-
-    if (intro instanceof HTMLElement) {
-        const introRoles = hero.introRoles;
-        const introPrefix = hero.introPrefix;
-        const typewriterState = { count: 0 };
-        let introTimeoutId: number | undefined;
-        let previousRole: (typeof introRoles)[number] | undefined;
-
-        intro.textContent = '';
-
-        if (introCaret instanceof HTMLElement) {
-            introCaret.classList.add('is-visible');
-        }
-
-        const pickIntroRole = () => {
-            const availableRoles = introRoles.filter((role) => role !== previousRole);
-            const role = availableRoles[utils.random(0, availableRoles.length - 1)];
-            previousRole = role;
-            return role;
-        };
-
-        const createIntroMessage = () => {
-            const role = pickIntroRole();
-            return `${introPrefix} ${role.article} ${role.label} and`;
-        };
-
-        const typeIntroMessage = (message: string, startIndex = introPrefix.length) => {
-            typewriterState.count = startIndex;
-            intro.textContent = message.slice(0, startIndex);
-
-            animate(typewriterState, {
-                count: message.length,
-                duration: (message.length - startIndex) * 80,
-                ease: 'linear',
-                onUpdate: () => {
-                    intro.textContent = message.slice(0, Math.floor(typewriterState.count));
-                },
-                onComplete: () => {
-                    intro.textContent = message;
-                    introTimeoutId = window.setTimeout(() => {
-                        eraseIntroMessage(message);
-                    }, 2600);
-                },
-            });
-        };
-
-        const eraseIntroMessage = (message: string) => {
-            typewriterState.count = message.length;
-
-            animate(typewriterState, {
-                count: introPrefix.length,
-                duration: (message.length - introPrefix.length) * 35,
-                ease: 'linear',
-                onUpdate: () => {
-                    intro.textContent = message.slice(0, Math.ceil(typewriterState.count));
-                },
-                onComplete: () => {
-                    intro.textContent = introPrefix;
-                    introTimeoutId = window.setTimeout(() => {
-                        typeIntroMessage(createIntroMessage());
-                    }, 400);
-                },
-            });
-        };
-
-        typeIntroMessage(createIntroMessage(), 0);
-
-        window.addEventListener(
-            'pagehide',
-            () => {
-                window.clearTimeout(introTimeoutId);
-            },
-            { once: true },
-        );
-    }
-
-    if (label instanceof HTMLElement) {
-        const { chars } = splitText(label, {
-            chars: {
-                wrap: 'clip',
-                clone: 'bottom',
-            },
         });
-
-        const activeChars = new WeakSet();
-        const primaryChars = new WeakSet();
-        const cooldownUntil = new WeakMap();
-        const animatableChars = chars.filter((char) => char.textContent?.trim());
-        const directions = hero.cloneDirections;
-        let timeoutId: number | undefined;
-
-        animatableChars.forEach((char) => {
-            char.style.color = 'hsl(0 0% 100%)';
-        });
-
-        const triggerRandomClone = () => {
-            const now = Date.now();
-            const availableChars = animatableChars.filter(
-                (char) => !activeChars.has(char) && (cooldownUntil.get(char) ?? 0) <= now,
-            );
-            const nextChar = availableChars.length
-                ? utils.randomPick(availableChars)
-                : null;
-
-            if (nextChar) {
-                activeChars.add(nextChar);
-
-                const nextClone = nextChar.children[1];
-                const direction = directions[utils.random(0, directions.length - 1)];
-
-                if (nextClone instanceof HTMLElement) {
-                    nextClone.style.top = direction.top;
-                    nextClone.style.left = direction.left;
-                }
-
-                const isPrimary = primaryChars.has(nextChar);
-                const nextColor = isPrimary ? 'hsl(0 0% 100%)' : 'var(--primary)';
-
-                if (nextClone instanceof HTMLElement) {
-                    nextClone.style.color = nextColor;
-                }
-
-                animate(nextChar, {
-                    x: direction.x,
-                    y: direction.y,
-                    duration: utils.random(700, 1200),
-                    ease: 'inOut(2)',
-                    onComplete: () => {
-                        nextChar.style.transform = 'translateX(0%) translateY(0%)';
-                        nextChar.style.color = nextColor;
-
-                        if (isPrimary) {
-                            primaryChars.delete(nextChar);
-                        } else {
-                            primaryChars.add(nextChar);
-                        }
-
-                        if (nextClone instanceof HTMLElement) {
-                            nextClone.style.color = '';
-                        }
-
-                        cooldownUntil.set(nextChar, Date.now() + utils.random(1800, 3200));
-                        activeChars.delete(nextChar);
-                    },
-                });
-            }
-
-            timeoutId = window.setTimeout(
-                triggerRandomClone,
-                utils.random(1400, 2400),
-            );
-        };
-
-        timeoutId = window.setTimeout(triggerRandomClone, utils.random(900, 1600));
-
-        window.addEventListener(
-            'pagehide',
-            () => {
-                window.clearTimeout(timeoutId);
-            },
-            { once: true },
-        );
     }
 </script>

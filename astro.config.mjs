@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
 import Icons from "unplugin-icons/vite";
 
@@ -89,11 +88,8 @@ const externalMarkdownLinks = () => {
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://yorukot.me",
-  adapter: cloudflare({
-    imageService: "compile",
-    prerenderEnvironment: "node",
-  }),
+  site: "https://deltron-fr.github.io",
+  output: "static",
   markdown: {
     rehypePlugins: [
       demoteMarkdownHeadings,

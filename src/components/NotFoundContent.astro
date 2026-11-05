@@ -4,7 +4,7 @@ import MdiHome from '~icons/mdi/home';
 import MdiKeyboardArrowRight from '~icons/mdi/keyboard-arrow-right';
 import MdiMagnifyClose from '~icons/mdi/magnify-close';
 import { navigationItems } from '../data/navigation';
-import BoidsBackground from './BoidsBackground.astro';
+import SignalFieldBackground from './SignalFieldBackground.astro';
 
 const recoveryLinks = [
     { label: 'Home', href: '/', icon: MdiHome },
@@ -13,7 +13,7 @@ const recoveryLinks = [
 ---
 
 <section class="not-found-page relative isolate overflow-hidden border-t border-border px-6 py-16 text-text sm:px-10 sm:py-20">
-    <BoidsBackground />
+    <SignalFieldBackground />
 
     <div class="not-found-shell relative z-10 grid gap-px border-y border-border bg-border lg:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]">
         <div class="not-found-copy bg-background p-6 sm:p-8 lg:p-10">
@@ -24,7 +24,7 @@ const recoveryLinks = [
                     Page lost
                 </h1>
                 <p class="max-w-2xl text-lg leading-8 text-text/70">
-                    This route does not resolve. Head back home, read the blog, or jump to another known route.
+                    This route does not resolve. Head back home, view my work, or jump to another known route.
                 </p>
             </div>
 
@@ -38,9 +38,9 @@ const recoveryLinks = [
                 </a>
                 <a
                     class="secondary-link inline-flex items-center gap-2 border border-border px-4 py-3 font-mono text-sm uppercase tracking-[0.14em] text-primary no-underline transition-colors hover:border-primary hover:bg-primary hover:text-background focus-visible:border-primary focus-visible:bg-primary focus-visible:text-background focus-visible:outline-none"
-                    href="/blog/"
+                    href="/#my-work"
                 >
-                    Read the blog
+                    View my work
                     <MdiKeyboardArrowRight aria-hidden="true" />
                 </a>
             </div>

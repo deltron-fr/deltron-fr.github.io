@@ -1,23 +1,17 @@
 export const navigationItems = [
-    { label: 'Blog', href: '/blog/' },
+    { label: 'Work', href: '/#my-work' },
     { label: 'About', href: '/#about' },
-    { label: 'Thanks', href: '/thanks' },
+    { label: 'Resume', href: '/resume/' },
     { label: 'Contact', href: '/#contact' },
 ] as const;
 
 export const socialLinks = [
-    { label: 'GitHub', icon: 'github', href: 'https://yorukot.me/github' },
-    { label: 'Sponsor', icon: 'sponsor', href: 'https://yorukot.me/sponsor' },
-    { label: 'Telegram', icon: 'telegram', href: 'https://yorukot.me/telegram' },
-    { label: 'Email', icon: 'email', href: 'mailto:hi@yorukot.me' },
+    { label: 'GitHub', icon: 'github', href: 'https://github.com/deltron-fr' },
+    { label: 'Discord', icon: 'discord', href: 'https://discord.com/app' },
+    { label: 'Email', icon: 'email', href: 'mailto:kelechiogbonnaya2020@gmail.com' },
 ] as const;
 
 export const footerLinks = [
-    { label: 'GitHub', href: 'https://yorukot.me/github' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/yorukot' },
-    { label: 'Sponsor', href: 'https://yorukot.me/sponsor' },
-    { label: 'Telegram', href: 'https://yorukot.me/telegram' },
-    { label: 'Email', href: 'mailto:hi@yorukot.me' },
-    { label: 'Discord', href: 'https://yorukot.me/discord' },
-    { label: 'YouTube', href: 'https://yorukot.me/youtube' },
+    { label: 'GitHub', href: 'https://github.com/deltron-fr' },
+    { label: 'Email', href: 'mailto:kelechiogbonnaya2020@gmail.com' },
 ] as const;

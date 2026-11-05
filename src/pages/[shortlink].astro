@@ -4,10 +4,15 @@ import { site } from '../data/site';
 import { shortlinkMap } from '../data/shortlinks';
 import Layout from '../layouts/Layout.astro';
 
-export const prerender = false;
+export function getStaticPaths() {
+    return [...shortlinkMap.entries()].map(([shortlink, href]) => ({
+        params: { shortlink },
+        props: { href },
+    }));
+}
 
 const slug = Astro.params.shortlink;
-const href = slug ? shortlinkMap.get(slug) : undefined;
+const href = Astro.props.href ?? (slug ? shortlinkMap.get(slug) : undefined);
 
 if (href) {
     return Astro.redirect(href, 302);
@@ -24,7 +29,7 @@ const description = 'The page you were looking for is not here.';
     description={description}
     canonicalPath="/404"
     image={site.defaultOgImage}
-    imageAlt="Yorukot social image"
+    imageAlt="Kelechi Ogbonnaya social image"
     robots="noindex, follow"
 >
     <NotFoundContent />

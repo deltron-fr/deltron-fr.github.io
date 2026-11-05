@@ -1,32 +1,51 @@
 @import "tailwindcss";
 
 :root {
-    --background: hsl(0 0% 0%);
-    --border: hsl(0 0% 19%);
-    --text: hsl(0 0% 78%);
-    --primary: hsl(27, 99%, 59%);
-    --success: hsl(145 63% 49%);
+    --background: #171615;
+    --surface: #211f1d;
+    --surface-raised: #2a2724;
+    --border: #443d37;
+    --text: #e8e0d7;
+    --muted: #a69b91;
+    --primary: #c18468;
+    --accent: #c0a77a;
+    --success: #81956f;
 
-    --boids-node: hsl(0 0% 95%);
-    --boids-line: hsl(0 0% 62%);
-    --boids-ring: hsl(0 0% 85%);
-    --boids-bg-glow: 0 0% 78%;
-    --boids-bg-sheen: 0 0% 100%;
-    --film-grain-opacity: 0.18;
+    --signal-route: #a97560;
+    --signal-node: #d2a38e;
+    --signal-packet: #c18468;
+    --film-grain-opacity: 0.08;
 
     --font-sans: "Space Grotesk", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 @theme inline {
     --color-background: var(--background);
+    --color-surface: var(--surface);
+    --color-surface-raised: var(--surface-raised);
     --color-border: var(--border);
     --color-text: var(--text);
+    --color-muted: var(--muted);
     --color-primary: var(--primary);
+    --color-accent: var(--accent);
     --color-success: var(--success);
 
     --font-sans: var(--font-sans);
+    --font-mono: var(--font-mono);
 }
 
 html {
     font-family: var(--font-sans);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+}
+
+body {
+    color: var(--color-text);
+}
+
+::selection {
+    background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+    color: var(--color-text);
 }

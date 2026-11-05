@@ -21,10 +21,6 @@ export const absoluteUrl = (path = '/') =>
 
 export const absoluteAssetUrl = (path: string) => new URL(path, site.url).toString();
 
-export const blogPostPath = (slug: string) => `/blog/${slug}/`;
-
-export const blogPostOgImagePath = (slug: string) => `/blog/${slug}/og.png`;
-
 export const pageTitle = (title?: string) => title || site.title;
 
 export const pageDescription = (description?: string) => description || site.description;

@@ -6,39 +6,23 @@ export type Shortlink = {
 export const shortlinks = [
   {
     slug: ["gh", "github"],
-    href: "https://github.com/yorukot",
-  },
-  {
-    slug: ["telegram", "tg"],
-    href: "https://t.me/yorukot",
-  },
-  {
-    slug: ["discord", "dc"],
-    href: "https://discord.com/users/579544867626024960",
+    href: "https://github.com/deltron-fr",
   },
   {
     slug: ["email", "mail"],
-    href: "mailto:hi@yorukot.me",
+    href: "mailto:kelechiogbonnaya2020@gmail.com",
   },
   {
-    slug: ["cal", "calendar"],
-    href: "https://calendar.google.com/calendar/embed?src=yorukot.hsiao%40gmail.com&ctz=Asia%2FTaipei",
+    slug: "discord",
+    href: "https://discord.com/app",
   },
   {
-    slug: ["stackoverflow", "stack-overflow", "so"],
-    href: "https://stackoverflow.com/users/15810000/yorukot",
+    slug: "systems-cv",
+    href: "/cv/KelechiOgbonnaya_CV_Systems.pdf",
   },
   {
-    slug: "gpg",
-    href: "https://yorukot.me/.well-known/openpgpkey/hu/aeii9rmagouy1owpp7e5ftpxjof7h41n?l=hi",
-  },
-  {
-    slug: ["youtube", "yt"],
-    href: "https://www.youtube.com/@yorukot",
-  },
-  {
-    slug: ["donate", "sponsor", "ko-fi", "kofi"],
-    href: "https://ko-fi.com/yorukot",
+    slug: "backend-cv",
+    href: "/cv/KelechiOgbonnaya_CV_SWE.pdf",
   },
 ] as const satisfies readonly Shortlink[];
 

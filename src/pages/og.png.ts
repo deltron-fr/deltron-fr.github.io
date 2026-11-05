@@ -6,6 +6,6 @@ export const GET: APIRoute = () =>
     renderOgImage({
         title: site.title,
         description: site.description,
-        eyebrow: 'Open-source developer',
+        eyebrow: 'Systems & backend engineer',
         lang: site.language,
     });

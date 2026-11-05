@@ -1,418 +1,180 @@
 ---
-import MdiKeyboardArrowRight from "~icons/mdi/keyboard-arrow-right";
-import MdiGithub from "~icons/mdi/github";
-import MdiHeart from "~icons/mdi/heart";
-import MdiTelegram from "~icons/mdi/telegram";
-import IcSharpEmail from "~icons/ic/sharp-email";
-import MdiContentCopy from "~icons/mdi/content-copy";
-import MdiCheck from "~icons/mdi/check";
-import MobileMenu from "./MobileMenu.astro";
-import { navigationItems, socialLinks } from "../data/navigation";
-import { site } from "../data/site";
+import MobileMenu from './MobileMenu.astro';
+import { navigationItems } from '../data/navigation';
+import { site } from '../data/site';
 
-const socialIconMap = {
-    github: MdiGithub,
-    sponsor: MdiHeart,
-    telegram: MdiTelegram,
-    email: IcSharpEmail,
-};
-
-type Props = {
-    hideOnScroll?: boolean;
-};
-
+type Props = { hideOnScroll?: boolean };
 const { hideOnScroll = false } = Astro.props;
-const brandLabel = site.name.toUpperCase();
 ---
 
-<header
-    class="site-header fixed left-0 right-0 top-0 z-[110] border-b border-border bg-background tracking-[0.08em] backdrop-blur text-text"
-    data-hide-on-scroll={hideOnScroll ? 'true' : undefined}
->
+<header class="site-header" data-hide-on-scroll={hideOnScroll ? 'true' : undefined}>
     <div class="header-frame">
-        <div class="flex justify-between h-full">
-            <div class="flex">
-                <a
-                    class="header-brand-link flex h-full items-center border-r border-border px-5 text-lg text-text no-underline transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none"
-                    href="/"
-                    aria-label={`${site.name} home`}
-                >
-                    {brandLabel}
-                </a>
-                <div class="desktop-header-grid h-full border-r border-border">
-                    <a
-                        class="header-link border-b border-border px-5 text-lg"
-                        href="/#contact"
-                    >
-                        <span class="header-link-content uppercase">
-                            Available for hire
-                        </span>
-                    </a>
-                    <button
-                        type="button"
-                        class="ssh-copy-button flex items-center px-5 text-left text-lg"
-                        data-copy-ssh
-                        data-copy-value={site.sshCommand}
-                        aria-label="Copy SSH command"
-                    >
-                        <span><span class="text-primary">$</span> {site.sshCommand}</span>
-                    </button>
-                </div>
-            </div>
+        <a class="header-brand" href="/" aria-label={`${site.name} home`}>
+            <span class="brand-mark" aria-hidden="true">KO</span>
+            <span class="brand-name">{site.name}</span>
+        </a>
 
-            <div class="desktop-header-nav h-full items-stretch">
-                <div
-                    class="grid grid-cols-2 h-full gap-px bg-border border-x border-border"
-                >
-                    {navigationItems.map((item) => (
-                        <a
-                            class="header-link px-4"
-                            href={item.href}
-                            target={item.href.startsWith('http') ? '_blank' : undefined}
-                            rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
-                        >
-                            <span class="header-link-content">
-                                <MdiKeyboardArrowRight /> {item.label}
-                            </span>
-                        </a>
-                    ))}
-                </div>
+        <nav class="desktop-nav" aria-label="Main navigation">
+            {navigationItems.map((item) => (
+                <a class="nav-link" href={item.href}>{item.label}</a>
+            ))}
+        </nav>
 
-                <div
-                    class="grid grid-cols-2 h-full aspect-square gap-px bg-border"
-                >
-                    {socialLinks.map((item) => {
-                        const Icon = socialIconMap[item.icon];
+        <a class="availability" href="/#contact">
+            <span class="availability-dot" aria-hidden="true"></span>
+            Available
+        </a>
 
-                        return (
-                            <a
-                                class="header-link header-link-icon"
-                                href={item.href}
-                                target={item.href.startsWith('mailto:') ? undefined : '_blank'}
-                                rel={item.href.startsWith('mailto:') ? undefined : 'noreferrer'}
-                                aria-label={item.label}
-                            >
-                                <span class="header-link-content header-link-content-icon">
-                                    <Icon class={item.icon === 'sponsor' ? 'sponsor-heart' : undefined} />
-                                </span>
-                            </a>
-                        );
-                    })}
-                </div>
-            </div>
-
-            <MobileMenu />
-        </div>
-    </div>
-
-    <div class="ssh-copy-cursor" data-copy-cursor aria-hidden="true">
-        <span class="ssh-copy-cursor-icon ssh-copy-cursor-icon-copy">
-            <MdiContentCopy />
-        </span>
-        <span class="ssh-copy-cursor-icon ssh-copy-cursor-icon-success">
-            <MdiCheck />
-        </span>
-        <span data-copy-cursor-label>Copy</span>
+        <MobileMenu />
     </div>
 </header>
 
 <style>
-    .header-frame {
-        height: 4rem;
-    }
-
     .site-header {
-        transition: transform 260ms ease-out;
-    }
-
-    .site-header.is-hidden {
-        transform: translateY(-100%);
-    }
-
-    .header-brand-link {
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-    }
-
-    .desktop-header-grid,
-    .desktop-header-nav {
-        display: none;
-    }
-
-    @media (min-width: 800px) {
-        .header-frame {
-            height: 6rem;
-        }
-
-        .desktop-header-grid {
-            display: grid;
-        }
-
-        .desktop-header-nav {
-            display: flex;
-        }
-    }
-
-    .ssh-copy-button {
-        color: inherit;
-        cursor: none;
-        background: transparent;
-    }
-
-    .ssh-copy-button:focus-visible {
-        outline: 1px solid var(--color-primary);
-        outline-offset: -1px;
-    }
-
-    .ssh-copy-cursor {
         position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.35rem 0.5rem;
-        border: 1px solid var(--color-border);
-        background: var(--color-background);
+        inset: 0 0 auto;
+        z-index: 110;
+        height: 4.5rem;
+        border-bottom: 1px solid color-mix(in srgb, var(--color-border) 76%, transparent);
+        background: color-mix(in srgb, var(--color-background) 82%, transparent);
         color: var(--color-text);
-        font-size: 0.75rem;
-        line-height: 1;
-        opacity: 0;
-        pointer-events: none;
-        transform: translate3d(-999px, -999px, 0);
-        transition:
-            color 160ms ease-out,
-            border-color 160ms ease-out,
-            opacity 120ms ease-out;
+        backdrop-filter: blur(18px);
+        transition: transform 260ms ease-out, background 180ms ease-out;
     }
 
-    .ssh-copy-cursor.is-visible {
-        opacity: 1;
-    }
+    .site-header.is-hidden { transform: translateY(-100%); }
 
-    .ssh-copy-cursor.is-success {
-        border-color: var(--color-success);
-        color: var(--color-success);
-    }
-
-    .ssh-copy-cursor-icon {
+    .header-frame {
         display: flex;
-        font-size: 0.95rem;
-    }
-
-    .ssh-copy-cursor-icon-success,
-    .ssh-copy-cursor.is-success .ssh-copy-cursor-icon-copy {
-        display: none;
-    }
-
-    .ssh-copy-cursor.is-success .ssh-copy-cursor-icon-success {
-        display: flex;
-    }
-
-    .header-link {
-        position: relative;
-        display: flex;
+        width: min(100%, 80rem);
+        height: 100%;
         align-items: center;
-        overflow: hidden;
-        background: var(--color-background);
+        margin-inline: auto;
+        padding-inline: 1.25rem;
+    }
+
+    .header-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
         color: inherit;
         text-decoration: none;
     }
 
-    .header-link::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        transform: scaleX(0);
-        transform-origin: left;
-        background: var(--color-text);
-        transition: transform 300ms ease-out;
+    .brand-mark {
+        display: grid;
+        width: 2.25rem;
+        height: 2.25rem;
+        place-items: center;
+        border: 1px solid color-mix(in srgb, var(--color-primary) 55%, var(--color-border));
+        color: var(--color-primary);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
     }
 
-    .header-link:hover::before {
-        transform: scaleX(1);
+    .brand-name {
+        font-size: 0.9rem;
+        font-weight: 650;
+        letter-spacing: 0.08em;
     }
 
-    .header-link-content {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        transition: color 300ms ease-out;
-    }
+    .desktop-nav,
+    .availability { display: none; }
 
-    .header-link:hover .header-link-content {
-        color: var(--color-background);
-    }
+    :global(.mobile-menu-root) { margin-left: auto; }
 
-    .header-link-icon {
-        justify-content: center;
-    }
+    @media (min-width: 800px) {
+        .site-header { height: 5rem; }
+        .header-frame { padding-inline: 2rem; }
 
-    .header-link-content-icon {
-        font-size: 1.25rem;
-    }
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+            margin-left: auto;
+        }
 
-    .sponsor-heart {
-        animation: sponsor-heartbeat 1.6s ease-in-out infinite;
-        color: currentColor;
-        transform-origin: center;
+        .nav-link {
+            position: relative;
+            color: var(--color-muted);
+            font-size: 0.84rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            transition: color 180ms ease-out;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: -0.55rem;
+            left: 0;
+            height: 1px;
+            background: var(--color-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 180ms ease-out;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible { color: var(--color-text); outline: none; }
+        .nav-link:hover::after,
+        .nav-link:focus-visible::after { transform: scaleX(1); }
+
+        .availability {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-left: 2rem;
+            border: 1px solid var(--color-border);
+            padding: 0.55rem 0.75rem;
+            color: var(--color-muted);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: border-color 180ms ease-out, color 180ms ease-out;
+        }
+
+        .availability:hover,
+        .availability:focus-visible {
+            border-color: color-mix(in srgb, var(--color-primary) 60%, var(--color-border));
+            color: var(--color-text);
+            outline: none;
+        }
+
+        .availability-dot {
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 50%;
+            background: var(--color-primary);
+            box-shadow: 0 0 0.45rem color-mix(in srgb, var(--color-primary) 38%, transparent);
+        }
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .sponsor-heart {
-            animation: none;
-        }
-    }
-
-    @keyframes sponsor-heartbeat {
-        0%,
-        42%,
-        70%,
-        100% {
-            color: currentColor;
-            transform: scale(1);
-        }
-
-        52% {
-            color: hsl(0 84% 60%);
-            transform: scale(1.22);
-        }
-
-        60% {
-            color: hsl(0 84% 60%);
-            transform: scale(0.96);
-        }
+        .site-header,
+        .nav-link::after { transition: none; }
     }
 </style>
 
 <script>
-    import { createAnimatable } from 'animejs';
-
     const header = document.querySelector('[data-hide-on-scroll="true"]');
-    const copyButtons = document.querySelectorAll('[data-copy-ssh]');
-    const cursorHint = document.querySelector('[data-copy-cursor]');
-    const cursorLabel = document.querySelector('[data-copy-cursor-label]');
-    const cursorOffset = 14;
-    let successTimeout: number | undefined;
 
     if (header instanceof HTMLElement) {
         let lastScrollY = window.scrollY;
-        const scrollThreshold = 12;
-
         const updateHeaderVisibility = () => {
             const currentScrollY = Math.max(window.scrollY, 0);
             const delta = currentScrollY - lastScrollY;
-
-            if (currentScrollY <= 8) {
-                header.classList.remove('is-hidden');
-                lastScrollY = currentScrollY;
-                return;
-            }
-
-            if (Math.abs(delta) < scrollThreshold) {
-                return;
-            }
-
-            header.classList.toggle('is-hidden', delta > 0);
-            lastScrollY = currentScrollY;
+            if (currentScrollY <= 8) header.classList.remove('is-hidden');
+            else if (Math.abs(delta) >= 12) header.classList.toggle('is-hidden', delta > 0);
+            if (Math.abs(delta) >= 12 || currentScrollY <= 8) lastScrollY = currentScrollY;
         };
 
         window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
-        window.addEventListener(
-            'pagehide',
-            () => {
-                window.removeEventListener('scroll', updateHeaderVisibility);
-            },
-            { once: true },
-        );
-    }
-
-    const cursorAnimatable =
-        cursorHint instanceof HTMLElement
-            ? createAnimatable(cursorHint, {
-                  x: 180,
-                  y: 180,
-                  ease: 'out(3)',
-              })
-            : null;
-
-    const resetCopyCursor = () => {
-        window.clearTimeout(successTimeout);
-        cursorHint?.classList.remove('is-success');
-
-        if (cursorLabel) {
-            cursorLabel.textContent = 'Copy';
-        }
-    };
-
-    const showCopyCursor = (event: PointerEvent) => {
-        resetCopyCursor();
-        cursorAnimatable?.x(event.clientX + cursorOffset, 0);
-        cursorAnimatable?.y(event.clientY + cursorOffset, 0);
-        cursorHint?.classList.add('is-visible');
-    };
-
-    const hideCopyCursor = () => {
-        cursorHint?.classList.remove('is-visible');
-        resetCopyCursor();
-    };
-
-    const moveCopyCursor = (event: PointerEvent) => {
-        cursorAnimatable?.x(event.clientX + cursorOffset);
-        cursorAnimatable?.y(event.clientY + cursorOffset);
-    };
-
-    const writeClipboard = async (value: string) => {
-        if (!navigator.clipboard?.writeText) {
-            throw new Error('Clipboard API is unavailable.');
-        }
-
-        await navigator.clipboard.writeText(value);
-    };
-
-    copyButtons.forEach((copyButton) => {
-        if (!(copyButton instanceof HTMLElement)) {
-            return;
-        }
-
-        copyButton.addEventListener('pointerenter', showCopyCursor);
-        copyButton.addEventListener('pointermove', moveCopyCursor);
-        copyButton.addEventListener('pointerleave', hideCopyCursor);
-        copyButton.addEventListener('click', async () => {
-            const value = copyButton.dataset.copyValue;
-
-            if (!value || !cursorHint) {
-                return;
-            }
-
-            try {
-                await writeClipboard(value);
-                cursorHint.classList.add('is-success');
-
-                if (cursorLabel) {
-                    cursorLabel.textContent = 'Copied';
-                }
-
-                window.clearTimeout(successTimeout);
-                successTimeout = window.setTimeout(resetCopyCursor, 1200);
-            } catch {
-                resetCopyCursor();
-            }
-        });
-    });
-
-    if (copyButtons.length) {
-        window.addEventListener(
-            'pagehide',
-            () => {
-                window.clearTimeout(successTimeout);
-                cursorAnimatable?.revert();
-            },
-            { once: true },
-        );
+        window.addEventListener('pagehide', () => window.removeEventListener('scroll', updateHeaderVisibility), { once: true });
     }
 </script>
