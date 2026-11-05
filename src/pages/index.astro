@@ -74,12 +74,6 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
         <div class="hero-content relative z-10 flex items-end">
             <div class="hero-shell">
                 <div class="hero-copy">
-                    <p class="hero-command" data-hero-reveal>
-                        <span class="text-muted">~/portfolio</span>
-                        <span class="text-accent">$</span>
-                        <span>whoami</span>
-                    </p>
-
                     <div class="hero-availability" data-hero-reveal>
                         <span class="hero-status-dot" aria-hidden="true"></span>
                         {hero.availability}
@@ -355,38 +349,28 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
 
     .hero-content {
         min-height: calc(100svh - 4.5rem);
-        padding-top: clamp(7rem, 18vh, 12rem);
-        padding-bottom: clamp(3rem, 8vh, 6rem);
+        padding-block: 2rem 3rem;
     }
 
     .hero-shell {
         display: grid;
+        min-height: min(68svh, 42rem);
+        align-content: end;
         align-items: end;
         gap: 2.5rem;
     }
 
     .hero-copy {
         max-width: 48rem;
-        border-left: 1px solid color-mix(in srgb, var(--color-primary) 65%, var(--color-border));
-        padding: 1.5rem 0 1.5rem clamp(1.25rem, 4vw, 3rem);
-        background: linear-gradient(90deg, color-mix(in srgb, var(--color-background) 68%, transparent), transparent);
+        padding: 0;
     }
 
-    .hero-command,
     .hero-availability,
     .hero-readout {
         font-family: var(--font-mono);
         font-size: 0.75rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-    }
-
-    .hero-command {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-        margin-bottom: 2.25rem;
-        color: var(--color-text);
     }
 
     .hero-availability {
@@ -406,8 +390,8 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
     }
 
     .hero-title {
-        max-width: 12ch;
-        font-size: clamp(3rem, 8vw, 6.75rem);
+        max-width: 14ch;
+        font-size: clamp(2.8rem, 7vw, 5.75rem);
         font-weight: 650;
         letter-spacing: -0.045em;
         line-height: 0.92;
@@ -498,8 +482,7 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
     [data-hero-reveal]:nth-child(3) { animation-delay: 150ms; }
     [data-hero-reveal]:nth-child(4) { animation-delay: 220ms; }
     [data-hero-reveal]:nth-child(5) { animation-delay: 290ms; }
-    [data-hero-reveal]:nth-child(6) { animation-delay: 360ms; }
-    .hero-readout[data-hero-reveal] { animation-delay: 420ms; }
+    .hero-readout[data-hero-reveal] { animation-delay: 360ms; }
 
     .interest-item {
         display: inline-flex;

@@ -218,7 +218,6 @@ export const mountSignalField = (root: HTMLElement) => {
     };
 
     const clearPointer = () => { pointer = null; };
-    const onThemeChange = () => { palette = readPalette(); };
     const resume = () => {
         if (!visible || document.visibilityState !== 'visible' || animationFrame) return;
         previousTime = performance.now();
@@ -245,7 +244,6 @@ export const mountSignalField = (root: HTMLElement) => {
     window.addEventListener('pointermove', syncPointer, { passive: true });
     window.addEventListener('pointerleave', clearPointer);
     window.addEventListener('blur', clearPointer);
-    window.addEventListener('themechange', onThemeChange);
     document.addEventListener('visibilitychange', onVisibilityChange);
     resume();
 
@@ -256,7 +254,6 @@ export const mountSignalField = (root: HTMLElement) => {
         window.removeEventListener('pointermove', syncPointer);
         window.removeEventListener('pointerleave', clearPointer);
         window.removeEventListener('blur', clearPointer);
-        window.removeEventListener('themechange', onThemeChange);
         document.removeEventListener('visibilitychange', onVisibilityChange);
         canvas.remove();
     };

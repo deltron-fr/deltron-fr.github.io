@@ -3,7 +3,6 @@ import FluentDismiss20Filled from "~icons/fluent/dismiss-20-filled";
 import MdiKeyboardArrowRight from "~icons/mdi/keyboard-arrow-right";
 import { contact } from "../data/contact";
 import { navigationItems } from "../data/navigation";
-import ThemePicker from './ThemePicker.astro';
 ---
 
 <div class="mobile-menu-root">
@@ -48,8 +47,6 @@ import ThemePicker from './ThemePicker.astro';
                     </a>
                 ))}
             </nav>
-
-            <ThemePicker variant="menu" />
 
             <div class="mobile-menu-contact" aria-label="Contact links">
                 {contact.channels.map((item) => (

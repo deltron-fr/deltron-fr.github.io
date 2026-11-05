@@ -1,6 +1,5 @@
 ---
 import MobileMenu from './MobileMenu.astro';
-import ThemePicker from './ThemePicker.astro';
 import { navigationItems } from '../data/navigation';
 import { site } from '../data/site';
 
@@ -20,8 +19,6 @@ const { hideOnScroll = false } = Astro.props;
                 <a class="nav-link" href={item.href}>{item.label}</a>
             ))}
         </nav>
-
-        <ThemePicker variant="header" />
 
         <a class="availability" href="/#contact">
             <span class="availability-dot" aria-hidden="true"></span>
@@ -92,8 +89,7 @@ const { hideOnScroll = false } = Astro.props;
     }
 
     .desktop-nav,
-    .availability,
-    :global(.theme-picker-header) { display: none; }
+    .availability { display: none; }
 
     :global(.mobile-menu-root) { margin-left: auto; }
 
@@ -106,11 +102,6 @@ const { hideOnScroll = false } = Astro.props;
             align-items: center;
             gap: 1.75rem;
             margin-left: auto;
-        }
-
-        :global(.theme-picker-header) {
-            display: block;
-            margin-left: 1.75rem;
         }
 
         .brand-surname { display: inline; }
