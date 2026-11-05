@@ -11,9 +11,9 @@ export const signalFieldConfig = {
 } as const;
 
 export const signalFieldPaletteFallbacks = {
-    route: '#a97560',
-    node: '#d2a38e',
-    packet: '#c18468',
-    accent: '#c0a77a',
-    label: '#a69b91',
+    route: '#ff6b00',
+    node: '#f5f5f5',
+    packet: '#ff6b00',
+    accent: '#ffc247',
+    label: '#b8b8b8',
 } as const;

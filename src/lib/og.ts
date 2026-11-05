@@ -71,8 +71,8 @@ export async function renderOgImage({
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    backgroundColor: '#171615',
-                    color: '#d7d7d7',
+                    backgroundColor: '#050505',
+                    color: '#f5f5f5',
                     padding: '58px 64px',
                     fontFamily,
                     border: '1px solid #303030',
@@ -119,7 +119,7 @@ export async function renderOgImage({
                             display: 'flex',
                             alignItems: 'center',
                             gap: '16px',
-                            color: '#c18468',
+                            color: '#ff6b00',
                             fontSize: 28,
                             fontWeight: 700,
                             textTransform: 'uppercase',
@@ -132,7 +132,7 @@ export async function renderOgImage({
                     {
                         style: {
                             display: 'flex',
-                            color: '#8f8f8f',
+                            color: '#b8b8b8',
                             fontSize: 24,
                             fontWeight: 500,
                         },
@@ -155,7 +155,7 @@ export async function renderOgImage({
                     {
                         style: {
                             display: 'flex',
-                            color: '#f2f2f2',
+                            color: '#f5f5f5',
                             fontSize: normalizedTitle.length > 46 ? 58 : 70,
                             lineHeight: 1.02,
                             fontWeight: 700,
@@ -222,7 +222,7 @@ export async function renderOgImage({
                     {
                         style: {
                             display: 'flex',
-                            color: '#c18468',
+                            color: '#ff6b00',
                             fontSize: 32,
                             fontWeight: 700,
                         },

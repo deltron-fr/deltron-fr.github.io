@@ -155,10 +155,10 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
                     {work.intro}
                 </p>
 
-                <div class="work-list-frame grid border border-border bg-surface">
+                <div class="work-list-frame grid">
                     {work.work.map((item: WorkItem) => (
-                        <article class="work-reveal-row bg-surface text-text" data-work-reveal>
-                            <div class="space-y-4 px-5 pt-5">
+                        <article class="work-reveal-row text-text" data-work-reveal>
+                            <div class="space-y-4 py-5">
                                 <div class="flex items-start justify-between gap-4">
                                     <div class="font-mono text-sm text-primary">
                                         {item.id}
@@ -191,14 +191,14 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
                                 </div>
                             </div>
 
-                            <div class="px-5 pb-5">
+                            <div class="pb-5">
                                 <p class="text-base leading-7 text-text/70">
                                     {item.description}
                                 </p>
 
                                 <div class="mt-5 flex flex-wrap gap-2">
                                     {item.tags.map((tag: string) => (
-                                        <span class="border border-border px-2 py-1 font-mono text-xs uppercase tracking-[0.12em] text-text/60">
+                                    <span class="font-mono text-xs uppercase tracking-[0.12em] text-text/60">
                                             {tag}
                                         </span>
                                     ))}
@@ -223,10 +223,10 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
             </div>
 
             <div class="space-y-8 text-text">
-                <div class="grid gap-px border border-border bg-border">
+                <div class="resume-options">
                     {contact.resume.options.map((resume: ResumeOption) => (
                         <a
-                            class="resume-card group relative isolate overflow-hidden bg-surface p-6 text-text no-underline transition-colors focus-visible:outline-none sm:p-8"
+                            class="resume-card group relative isolate text-text no-underline transition-colors focus-visible:outline-none"
                             href={resume.href}
                         >
                             <span class="resume-card-logo" aria-hidden="true">
@@ -270,9 +270,9 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
                     {contact.intro}
                 </p>
 
-                <div class="grid gap-px border border-border bg-border lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
+                <div class="contact-layout lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
                     <a
-                        class="contact-cta group relative isolate grid min-h-72 overflow-hidden bg-surface p-6 text-text no-underline transition-colors focus-visible:outline-none sm:p-8 lg:grid-cols-[7rem_1fr] lg:gap-5"
+                        class="contact-cta group relative isolate grid text-text no-underline transition-colors focus-visible:outline-none lg:grid-cols-[7rem_1fr] lg:gap-5"
                         href={contact.cta.href}
                     >
                         <span class="contact-cta-logo" aria-hidden="true">
@@ -296,13 +296,13 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
                         </div>
                     </a>
 
-                    <div class="grid gap-px bg-border">
+                    <div class="contact-channels">
                         {contact.channels.map((item: ContactChannel) => {
                             const Icon = contactIconMap[item.label];
 
                             return (
                                 <a
-                                    class="contact-channel group relative isolate overflow-hidden bg-surface p-5 text-text no-underline transition-colors focus-visible:outline-none sm:p-6"
+                                    class="contact-channel group relative isolate overflow-hidden text-text no-underline transition-colors focus-visible:outline-none"
                                     href={item.href}
                                     target={item.href.startsWith('mailto:') ? undefined : '_blank'}
                                     rel={item.href.startsWith('mailto:') ? undefined : 'noreferrer'}
@@ -342,15 +342,11 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
 
     .home-section {
         position: relative;
-        background:
-            linear-gradient(110deg, color-mix(in srgb, var(--color-primary) 2.5%, transparent), transparent 42%),
-            var(--color-background);
+        background: var(--color-background);
     }
 
     .home-section:nth-of-type(odd) {
-        background:
-            linear-gradient(290deg, color-mix(in srgb, var(--color-primary) 3.5%, transparent), transparent 45%),
-            color-mix(in srgb, var(--color-surface) 42%, var(--color-background));
+        background: var(--color-background);
     }
 
     .hero-section {
@@ -477,8 +473,7 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
         display: grid;
         width: min(100%, 46rem);
         border: 1px solid var(--color-border);
-        background: color-mix(in srgb, var(--color-surface) 82%, transparent);
-        backdrop-filter: blur(12px);
+        background: transparent;
     }
 
     .hero-readout > div {
@@ -507,12 +502,11 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
 
     .interest-item {
         display: inline-flex;
-        min-height: 3rem;
+        min-height: 2.25rem;
         align-items: center;
         gap: 0.7rem;
-        border: 1px solid var(--color-border);
-        background: var(--color-surface);
-        padding-inline: 0.9rem;
+        border-bottom: 1px solid var(--color-border);
+        padding: 0.2rem 0.2rem 0.45rem 0;
     }
 
     .contact-cta,
@@ -527,7 +521,6 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
     .resume-card:focus-visible,
     .contact-channel:hover,
     .contact-channel:focus-visible {
-        background: var(--color-surface-raised);
         color: var(--color-text);
         outline: none;
     }
@@ -618,7 +611,7 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
         border-top: 1px solid var(--color-border);
         opacity: 0;
         transform: translateY(1.25rem);
-        transition: background 180ms ease-out, border-color 180ms ease-out;
+        transition: border-color 180ms ease-out, color 180ms ease-out;
     }
 
     .work-reveal-row:first-child { border-top: 0; }
@@ -626,9 +619,55 @@ const homeTitle = 'Kelechi Ogbonnaya | Systems & Backend Engineer';
     .work-reveal-row:hover,
     .work-reveal-row:focus-within {
         border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
-        background:
-            radial-gradient(circle at top right, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 24rem),
-            var(--color-surface-raised);
+    }
+
+    .resume-options,
+    .contact-layout {
+        display: grid;
+        gap: 2.5rem;
+    }
+
+    .resume-card {
+        display: block;
+        border-top: 1px solid var(--color-border);
+        padding-block: 1.5rem;
+    }
+
+    .resume-card:last-child { border-bottom: 1px solid var(--color-border); }
+
+    .resume-card:hover .resume-card-logo,
+    .resume-card:focus-visible .resume-card-logo { opacity: 0.06; }
+
+    .contact-cta {
+        min-height: 0;
+        border-block: 1px solid var(--color-border);
+        padding-block: 1.5rem;
+    }
+
+    .contact-channels {
+        display: grid;
+        gap: 0;
+    }
+
+    .contact-channel {
+        min-height: 0;
+        border-bottom: 1px solid var(--color-border);
+        padding-block: 1rem;
+    }
+
+    .contact-channel:first-child { border-top: 1px solid var(--color-border); }
+
+    .contact-cta-logo,
+    .resume-card-logo,
+    .contact-channel-logo { display: none; }
+
+    .contact-cta:hover,
+    .contact-cta:focus-visible,
+    .resume-card:hover,
+    .resume-card:focus-visible,
+    .contact-channel:hover,
+    .contact-channel:focus-visible {
+        background: transparent;
     }
 
     @media (min-width: 800px) {

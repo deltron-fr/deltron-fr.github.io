@@ -1,7 +1,7 @@
 <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="500" height="500" rx="72" fill="#171615"/>
-  <path d="M72 154H148V96M428 346H352V404" stroke="#443D37" stroke-width="12"/>
-  <rect x="54" y="54" width="392" height="392" rx="42" stroke="#C18468" stroke-width="8"/>
-  <text x="250" y="300" text-anchor="middle" fill="#E8E0D7" font-family="Arial, sans-serif" font-size="180" font-weight="700" letter-spacing="-14">KO</text>
-  <rect x="376" y="102" width="26" height="26" fill="#C0A77A"/>
+  <rect width="500" height="500" rx="72" fill="#050505"/>
+  <path d="M72 154H148V96M428 346H352V404" stroke="#2D2D2D" stroke-width="12"/>
+  <rect x="54" y="54" width="392" height="392" rx="42" stroke="#FF6B00" stroke-width="8"/>
+  <text x="250" y="300" text-anchor="middle" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="180" font-weight="700" letter-spacing="-14">KO</text>
+  <rect x="376" y="102" width="26" height="26" fill="#FFC247"/>
 </svg>

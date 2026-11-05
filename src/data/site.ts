@@ -8,7 +8,7 @@ export const site = {
     locale: 'en_US',
     author: 'Kelechi Ogbonnaya',
     email: 'kelechiogbonnaya2020@gmail.com',
-    themeColor: '#171615',
+    themeColor: '#050505',
     sitemapPath: '/sitemap.xml',
     defaultOgImage: '/og.png',
     social: {

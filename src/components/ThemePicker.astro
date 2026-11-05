@@ -1,0 +1,154 @@
+---
+import { themes } from '../data/themes';
+
+type Props = { variant?: 'header' | 'menu' };
+const { variant = 'header' } = Astro.props;
+---
+
+<div class={`theme-picker theme-picker-${variant}`} data-theme-picker>
+    <button
+        class="theme-picker-toggle"
+        type="button"
+        data-theme-toggle
+        aria-expanded="false"
+        aria-controls={`theme-options-${variant}`}
+    >
+        <span class="theme-current-swatch" data-theme-current-swatch aria-hidden="true"></span>
+        <span data-theme-current>Theme</span>
+    </button>
+
+    <div
+        class="theme-picker-options"
+        id={`theme-options-${variant}`}
+        data-theme-options
+        role="listbox"
+        aria-label="Colour theme"
+        hidden
+    >
+        {themes.map((theme) => (
+            <button
+                class="theme-option"
+                type="button"
+                role="option"
+                data-theme-option={theme.id}
+                aria-label={`${theme.label}: ${theme.description}`}
+                aria-selected="false"
+                tabindex="-1"
+            >
+                <span
+                    class="theme-option-swatch"
+                    style={`--theme-preview-background: ${theme.previewBackground}; --theme-preview-accent: ${theme.previewAccent}`}
+                    aria-hidden="true"
+                ></span>
+                <span>{theme.label}</span>
+            </button>
+        ))}
+    </div>
+</div>
+
+<script>
+    import { initializeThemeControls } from '../scripts/theme';
+
+    initializeThemeControls();
+</script>
+
+<style>
+    .theme-picker {
+        position: relative;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .theme-picker-toggle,
+    .theme-option {
+        display: inline-flex;
+        align-items: center;
+        border: 0;
+        background: transparent;
+        color: var(--color-muted);
+        cursor: pointer;
+        font: inherit;
+        letter-spacing: inherit;
+        text-transform: inherit;
+    }
+
+    .theme-picker-toggle {
+        gap: 0.5rem;
+        padding: 0.25rem 0;
+    }
+
+    .theme-picker-toggle:hover,
+    .theme-picker-toggle:focus-visible,
+    .theme-picker.is-open .theme-picker-toggle {
+        color: var(--color-text);
+        outline: none;
+    }
+
+    .theme-current-swatch,
+    .theme-option-swatch {
+        display: inline-block;
+        flex: 0 0 auto;
+        width: 0.75rem;
+        height: 0.75rem;
+        border: 1px solid color-mix(in srgb, var(--color-text) 40%, transparent);
+        border-radius: 50%;
+        background: var(--theme-preview-background);
+        box-shadow: inset 0 0 0 0.2rem var(--theme-preview-background), inset 0 0 0 0.35rem var(--theme-preview-accent);
+    }
+
+    .theme-picker-options {
+        position: absolute;
+        top: calc(100% + 0.8rem);
+        right: 0;
+        z-index: 130;
+        display: grid;
+        min-width: 10rem;
+        gap: 0.15rem;
+        border: 1px solid var(--color-border);
+        background: var(--color-background);
+        padding: 0.45rem;
+        box-shadow: 0 1rem 2rem rgb(0 0 0 / 22%);
+    }
+
+    .theme-option {
+        width: 100%;
+        gap: 0.6rem;
+        padding: 0.45rem 0.35rem;
+        text-align: left;
+    }
+
+    .theme-option:hover,
+    .theme-option:focus-visible,
+    .theme-option[aria-selected="true"] {
+        color: var(--color-text);
+        outline: none;
+    }
+
+    .theme-option[aria-selected="true"] { color: var(--color-primary); }
+
+    .theme-picker-menu {
+        width: 100%;
+        padding-block: 0.75rem;
+        border-block: 1px solid var(--color-border);
+    }
+
+    .theme-picker-menu .theme-picker-toggle { color: var(--color-text); }
+
+    .theme-picker-menu .theme-picker-options {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        min-width: 0;
+        gap: 0.25rem 1rem;
+        border: 0;
+        box-shadow: none;
+        padding: 0.75rem 0 0;
+    }
+
+    .theme-picker-menu .theme-option {
+        width: auto;
+        padding: 0.25rem 0;
+    }
+</style>
